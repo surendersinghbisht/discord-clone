@@ -1,32 +1,55 @@
 import { FC, memo, useState } from "react";
 import SideBar from "../components/SideBar";
 import ChatApp from "@/components/Chatapp";
+import Navbar from "@/components/NavBar";
+import { FaGripLines } from "react-icons/fa6";
+import { useQuery } from '@tanstack/react-query';
+import { IUser } from '@/models/User';
+import { axiosInstance } from '../../api/api';
 
 type LandingPageProps = {};
 
 const LandingPage: FC<LandingPageProps> = () => {
-  interface SharedDataState {
-    directMessage: boolean;
-    groups: boolean;
-  }
 
-  const [sharedData, setSharedData] = useState<SharedDataState>({
-    directMessage: false,
-    groups: false,
-  });
+  const[sharedData, setSharedData]= useState({
+    friends: false,
+    channels: false
+  })
+
+
+    const{data: friends} = useQuery<IUser[]>({
+      queryKey: ["friends"],
+      queryFn: async()=> {
+        try {
+         const res = await axiosInstance.get("/friends/get-friends");
+         return res.data;
+        } catch (error) {
+          console.log(error, "error in getting friends");
+        }
+      }
+    })
+ 
+
+
 
   return (
+    <div>
     <div className="flex h-screen">
-      {/* Sidebar with a fixed width */}
-      <div className=" bg-gray-900 text-white">
-        <SideBar setSharedData={setSharedData} />
+  
+      <div className=" bg-gray-900 text-white ">
+        <SideBar sharedData={sharedData} setSharedData={setSharedData} />
+      </div>
+      
+      <div className="hidden md:block lg:block  ">
+      <Navbar sharedData = {sharedData} friends={friends}/>
       </div>
 
-      {/* ChatApp takes the remaining space */}
-      <div className="flex-1 bg-gray-400 h-screen ">
+      <div className="flex-1 bg-custombg h-screen ">
         <ChatApp />
       </div>
     </div>
+    </div>
+    
   );
 };
 

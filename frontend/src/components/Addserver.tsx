@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BsPlus } from "react-icons/bs";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../../api/api"
 
@@ -31,6 +31,8 @@ const AddServer: FC<AddServerProps> = () => {
     </div>
   );
 
+  
+
   const [serverDetails, setServerDetails] = useState<{
     name: string;
     description: string;
@@ -46,13 +48,19 @@ const AddServer: FC<AddServerProps> = () => {
     }));
   };
 
+const query = useQueryClient()
+
+  
   const { mutate: addServerMutation, isLoading } = useMutation({
     mutationFn: async (data: { name: string; description: string }) => {
         console.log(data)
       const res = await axiosInstance.post("/group/create-group", data);
       return res.data;
     },
-    onSuccess: () => toast.success("Server created successfully!"),
+    onSuccess: () => {
+        toast.success("Server created successfully!")
+        query.invalidateQueries({queryKey:["groups"]})
+    },
     onError: (error: any) =>
       toast.error(error.response?.data.message || "Something went wrong"),
   });

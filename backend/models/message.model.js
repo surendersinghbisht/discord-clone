@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const oneToOneChatschema  = mongoose.Schema({
+const messageSchema  = mongoose.Schema({
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -9,12 +9,12 @@ const oneToOneChatschema  = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    message: {
+    text: {
         type: String,
         required: true
     }
 }, {timestamps: true});
 
-const oneToOneChat = mongoose.model("oneToOneChat", oneToOneChatschema);
+const Message = mongoose.model("Message", messageSchema);
 
-export default oneToOneChat;
+export default Message;

@@ -24,16 +24,11 @@ const SidebarLine = () => (
   <div className="h-0.5 w-12 bg-gray-800 mx-auto rounded-full"></div>
 );
 
-
-const SideBar = ({setSharedData}) => {
-
-// const {data: authUser} = useQuery({queryKey: ["authUser"]})
-
-// const {mutate} = useMutation({
-//   mutationFn: async()=> {
-//     await axiosInstance.post("/group/create-group",{})
-//   }
-// })
+type ChildProps = {
+  sharedData: { friends: boolean; channels: boolean };
+  setSharedData: React.Dispatch<React.SetStateAction<{ friends: boolean; channels: boolean }>>;
+};
+const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData}) => {
 
 
 const {data: groups} = useQuery({
@@ -46,12 +41,7 @@ queryFn: async()=> {try {
 }}
 })
 
-const friendsSection =()=>{
-  setSharedData((prevState) => ({
-    ...prevState,
-    directMessage: true,
-  }));
-}
+
 
 const firstWord = (str: string): string=> {
  const word = str.split(" ").map(s=> s[0]).join("");
@@ -59,16 +49,23 @@ const firstWord = (str: string): string=> {
     
   }
 
-  console.log('ffff',groups)
-  return (
-    <div className="h-screen w-16 flex flex-col bg-gray-900 items-center mt-10 text-white shadow-lg">
 
-        <button onClick={friendsSection}><SidebarIcon  icon={<FaFire size="28" />} text="Direct Message" /></button>   
+  const setDataForNavBar = ()=> {
+    setSharedData({
+      ...sharedData,
+      friends: true
+    })
+  }
+
+  return (
+    <div className=" w-16 flex flex-col bg-gray-900 items-center mt-10 text-white shadow-lg">
+
+        <button onClick={setDataForNavBar} ><SidebarIcon  icon={<FaFire size="28" />} text="Direct Message" /></button>   
       <SidebarLine />
 
       {groups?.map((group)=> {
         return (
-          <div className="mt-1">
+          <div className="">
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />
   <AvatarFallback className="text-black">{firstWord(group.name)}</AvatarFallback>
