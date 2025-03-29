@@ -30,7 +30,12 @@ const LandingPage: FC<LandingPageProps> = () => {
     })
  
 
-
+const[recieverId, setRecieverId] = useState("");
+const[chatApp, setChatapp] = useState(false);
+const getReciverId =(id)=> {
+setRecieverId(id)
+setChatapp(true);
+}
 
   return (
     <div>
@@ -41,11 +46,11 @@ const LandingPage: FC<LandingPageProps> = () => {
       </div>
       
       <div className="hidden md:block lg:block  ">
-      <Navbar sharedData = {sharedData} friends={friends}/>
+      <Navbar  getRecieverIdFromNav={getReciverId} sharedData = {sharedData} friends={friends}/>
       </div>
 
       <div className="flex-1 bg-custombg h-screen ">
-        <ChatApp />
+       {chatApp && <ChatApp recieverId={recieverId} />}
       </div>
     </div>
     </div>

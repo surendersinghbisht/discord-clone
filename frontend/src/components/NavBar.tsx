@@ -1,6 +1,7 @@
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { BsPlus } from 'react-icons/bs';
 import { IUser } from '@/models/User';
+import Userbatch from './Userbatch';
 
 const NavbarListItem = ({ icon, text }) => (
   <div className='w-full flex justify-between items-center my-1 group'>
@@ -21,20 +22,21 @@ interface NavbarProps {
     friends: boolean,
     channels: boolean
   },
-  friends: IUser[] | undefined
+  friends: IUser[] | undefined,
+  getRecieverIdFromNav: any
 }
-const Navbar:React.FC<NavbarProps> = ({sharedData, friends}) => {
+const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav}) => {
 
-
+  const sendRecieverId =(id: string)=> {
+    getRecieverIdFromNav(id)
+  }
 
   return (
-    <div className=' w-36   px-3 py-3 h-screen flex flex-col bg-gray-700 items-start'>
+    <div className=' w-36   px-3 py-3 h-screen flex flex-col bg-customcolor items-start'>
       <h3 className='text-gray-200 font-semibold tracking-wider mb-2'>Channels</h3>
 { sharedData.friends && friends?.map((friend)=> {
   return (
-    <div>
-      <h1>{friend.name}</h1>
-    </div>
+    <button onClick={()=> sendRecieverId(friend._id)}><Userbatch name={friend.name} image={friend.image} /></button>
   )
 })}
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />
