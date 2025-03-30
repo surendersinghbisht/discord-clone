@@ -15,10 +15,15 @@ const fetchAuthUser = async (): Promise<IUser> => {
   return response.data;
 };
 
+interface Message {
+  sender: string;
+  reciever: string;
+  text: string;
+}
+
 const Chatapp: FC<ChatappProps> = ({ recieverId }) => {
-  
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Array<any>>([]);
+  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const { data: authUser, isLoading, error } = useQuery<IUser>({
     queryKey: ["authUser"],
@@ -32,9 +37,16 @@ const Chatapp: FC<ChatappProps> = ({ recieverId }) => {
     if (authUser?._id) {
       socket.emit("joinRoom", authUser._id);
 
-      const handleMessageReceived = (data) => {
+      const fetchMessages = async () => {
+        const res = await axiosInstance.get<Message[]>(`message/get-messages/${authUser._id}/${recieverId}`);
+        console.log(res.data)
+        setMessages(res.data); 
+      };
+
+      fetchMessages();
+
+      const handleMessageReceived = (data: Message) => {
         console.log("Message received:", data);
-    
         setMessages((prevMessages) => [...prevMessages, data]);
       };
 
@@ -44,23 +56,20 @@ const Chatapp: FC<ChatappProps> = ({ recieverId }) => {
         socket.off("receiveMessage", handleMessageReceived);
       };
     }
-  }, [authUser?._id]);
+  }, [authUser?._id, recieverId]);
 
-  
   const sendMessage = () => {
     if (message.trim() === "") return;
 
-    const newMessage = {
-      sender: authUser?._id,
+    const newMessage: Message = {
+      sender: authUser?._id ?? "",  
       reciever: recieverId,
       text: message,
     };
 
-  
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     setMessage(""); 
 
-    
     socket.emit("sendMessage", newMessage, (response) => {
       if (response?.status === "error") {
         console.error("Failed to send message");
@@ -68,30 +77,33 @@ const Chatapp: FC<ChatappProps> = ({ recieverId }) => {
     });
   };
 
- 
   return (
-    <div className="bg-custombg font-bold">
-      <div>
-        {messages.map((msg, index) => (
-          <p className="text-white" key={index}>
-            {msg.sender === authUser?._id ? "you": msg.reciever}: {msg.text}
-          </p>
-        ))}
-      </div>
-      <div className="p-4 flex fixed bottom-0 w-full">
-        <Input
-          className="bg-customcolor outline-none w-2/3 border-gray-700 text-white font-discord"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <Button
-          onClick={sendMessage}
-          className="bg-customcolor outline-none w-12 sm:w-20 border-gray-700 text-white font-discord"
-        >
-          Send
-        </Button>
-      </div>
-    </div>
+<div className="bg-custombg h-screen font-bold flex flex-col">
+  {/* Message content area */}
+  <div className="flex-1 overflow-y-auto p-4">
+    {messages.map((msg, index) => (
+      <p className="text-white" key={index}>
+        {msg.sender === authUser?._id ? "You" : msg.reciever}: {msg.text}
+      </p>
+    ))}
+  </div>
+
+  {/* Input field at the bottom */}
+  <div className="p-4 flex fixed bottom-0 w-full bg-custombg">
+    <Input
+      className="bg-customcolor outline-none w-2/3 border-gray-700 text-white font-discord"
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+    />
+    <Button
+      onClick={sendMessage}
+      className="bg-customcolor outline-none w-12 sm:w-20 border-gray-700 text-white font-discord"
+    >
+      Send
+    </Button>
+  </div>
+</div>
+
   );
 };
 

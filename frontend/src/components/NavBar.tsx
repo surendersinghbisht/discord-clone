@@ -32,7 +32,7 @@ const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav
   }
 
   return (
-    <div className=' w-36   px-3 py-3 h-screen flex flex-col bg-customcolor items-start'>
+    <div className=' w-36  px-3 py-3 h-screen flex flex-col bg-customcolor items-start'>
       <h3 className='text-gray-200 font-semibold tracking-wider mb-2'>Channels</h3>
 { sharedData.friends && friends?.map((friend)=> {
   return (

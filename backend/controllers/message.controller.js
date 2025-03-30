@@ -25,9 +25,7 @@ export const messageController = (io) => {
        
       
         const savedMessage = await message.save(); 
-        console.log('saved',savedMessage)
-     
-        console.log('r id',data.reciever, data.senderId)
+  
         io.to(data.reciever).emit("receiveMessage", savedMessage);
 
       } catch (error) {
@@ -41,3 +39,22 @@ export const messageController = (io) => {
     });
   });
 };
+
+
+export const getMessages = async(req, res)=> {
+try {
+  const {senderId, recieverId} = req.params;
+
+  const messages = await Message.find({
+    $or:[
+      {sender: senderId, reciever: recieverId},
+      {sender: recieverId, reciever: senderId}
+      ]
+  }).sort({createdAt: -1});
+
+  res.status(200).json(messages);
+} catch (error) {
+  console.log(error,"error in message controller");
+  res.status(500).json({message: "internal server error"});
+}
+}

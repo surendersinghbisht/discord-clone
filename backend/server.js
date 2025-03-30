@@ -1,5 +1,5 @@
 import express from "express";
-import http from "http"; // ✅ Required for Socket.io
+import http from "http"; 
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -10,16 +10,16 @@ import requestRoute from "./Routes/request.route.js";
 import userRoute from "./Routes/user.route.js";
 import groupRoute from "./Routes/group.route.js";
 import friendsRoute from "./Routes/friends.route.js";
-import messageRoute from "./Routes/message.Route.js"; // ✅ Import Message Route
+import messageRoute from "./Routes/message.Route.js"; 
 import {messageController} from "./controllers/message.controller.js"
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app); // ✅ Create HTTP server for Socket.io
+const server = http.createServer(app); 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // ✅ Allow frontend connection
+    origin: "http://localhost:5173", 
     credentials: true,
   },
 });
@@ -33,33 +33,33 @@ app.get("/", (req, res) => {
   res.send("Hello from backend with Socket.io");
 });
 
-// ✅ MongoDB Connection Function
+
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`❌ Error connecting to MongoDB: ${error.message}`);
+    console.error(`Error connecting to MongoDB: ${error.message}`);
     process.exit(1);
   }
 };
 
 
-messageController(io); // ✅ Pass `io` to the message controller
+messageController(io); 
 
-// ✅ API Routes
+
 app.use("/api/auth", authRoute);
 app.use("/api/request", requestRoute);
 app.use("/api/user", userRoute);
 app.use("/api/group", groupRoute);
 app.use("/api/friends", friendsRoute);
-app.use("/api/message", messageRoute); // ✅ Message API
+app.use("/api/message", messageRoute); 
 
-// ✅ Start Server
+
 const startServer = async () => {
   await connectDB();
   server.listen(5000, () => {
-    console.log(`🚀 Server with Socket.io is running on port 5000`);
+    console.log(`Server with Socket.io is running on port 5000`);
   });
 };
 
