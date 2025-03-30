@@ -50,7 +50,7 @@ try {
       {sender: senderId, reciever: recieverId},
       {sender: recieverId, reciever: senderId}
       ]
-  }).sort({createdAt: -1});
+  }).sort({createdAt: 1});
 
   res.status(200).json(messages);
 } catch (error) {
