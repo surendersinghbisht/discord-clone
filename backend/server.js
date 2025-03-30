@@ -11,6 +11,7 @@ import userRoute from "./Routes/user.route.js";
 import groupRoute from "./Routes/group.route.js";
 import friendsRoute from "./Routes/friends.route.js";
 import messageRoute from "./Routes/message.Route.js"; // ✅ Import Message Route
+import {messageController} from "./controllers/message.controller.js"
 
 dotenv.config();
 
@@ -43,8 +44,7 @@ const connectDB = async () => {
   }
 };
 
-// ✅ Pass `io` to controllers
-import {messageController} from "./controllers/message.controller.js"
+
 messageController(io); // ✅ Pass `io` to the message controller
 
 // ✅ API Routes
