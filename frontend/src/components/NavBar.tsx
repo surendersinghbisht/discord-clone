@@ -2,6 +2,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { BsPlus } from 'react-icons/bs';
 import { IUser } from '@/models/User';
 import Userbatch from './Userbatch';
+import { FaUserFriends } from "react-icons/fa";
 
 const NavbarListItem = ({ icon, text }) => (
   <div className='w-full flex justify-between items-center my-1 group'>
@@ -23,9 +24,10 @@ interface NavbarProps {
     channels: boolean
   },
   friends: IUser[] | undefined,
-  getRecieverIdFromNav: any
+  getRecieverIdFromNav: any,
+  setFriendsSecton: any
 }
-const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav}) => {
+const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav, setFriendsSecton}) => {
 
   const sendRecieverId =(id: string)=> {
     getRecieverIdFromNav(id)
@@ -33,7 +35,10 @@ const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav
 
   return (
     <div className=' w-36  px-3 py-3 h-screen flex flex-col bg-customcolor items-start'>
-      <h3 className='text-gray-200 font-semibold tracking-wider mb-2'>Channels</h3>
+      {sharedData.friends &&<div onClick={()=>setFriendsSecton(true)} className='flex space-x-4 m-2 hover:bg-custombg'><FaUserFriends className='ml-2 mt-1 text-white'/><h1 className='text-gray-200 font-discord font-semibold tracking-wider '>friends</h1>
+      </div>
+      }
+      {/* <h3 className='text-gray-200 font-semibold tracking-wider mb-2'>Channels</h3> */}
 { sharedData.friends && friends?.map((friend)=> {
   return (
     <button onClick={()=> sendRecieverId(friend._id)}><Userbatch name={friend.name} image={friend.image} /></button>

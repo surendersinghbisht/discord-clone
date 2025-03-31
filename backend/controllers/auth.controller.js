@@ -9,6 +9,11 @@ try {
     }
 
     const existingEmail = await User.findOne({email});
+    const existingusername = await User.findOne({username});
+
+    if(existingusername) {
+        return res.status(400).json({message: "username already exists .... try something unique and different."})
+    }
 
     if(existingEmail) {
         return res.status(400).json({message: "User already exists"})

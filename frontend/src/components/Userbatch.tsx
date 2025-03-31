@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 
 type UserbatchProps = {
     name: string,
-    image: string | undefined
+    image?: string | undefined
 };
 
 const Userbatch: FC<UserbatchProps> = ({name, image}) => {

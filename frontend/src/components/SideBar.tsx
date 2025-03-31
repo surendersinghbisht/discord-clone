@@ -27,8 +27,9 @@ const SidebarLine = () => (
 type ChildProps = {
   sharedData: { friends: boolean; channels: boolean };
   setSharedData: React.Dispatch<React.SetStateAction<{ friends: boolean; channels: boolean }>>;
+  setSettingsPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData}) => {
+const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData, setSettingsPage}) => {
 
 
 const {data: groups} = useQuery({
@@ -54,7 +55,8 @@ const firstWord = (str: string): string=> {
     setSharedData({
      channels: false,
       friends: true
-    })
+    });
+    setSettingsPage(false);
   }
 
   return (
@@ -80,7 +82,7 @@ const firstWord = (str: string): string=> {
       <Addserver />
       <SidebarLine />
       <Dialog />
-      <SidebarIcon icon={<RiSettings3Fill size="28" />} text="Settings" />
+      <button onClick={()=>setSettingsPage(true)}><SidebarIcon icon={<RiSettings3Fill size="28" />} text="Settings" /></button>
     </div>
   );
 };

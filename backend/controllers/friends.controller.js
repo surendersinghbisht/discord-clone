@@ -23,3 +23,18 @@ try {
     res.status(500).json({message: "internal server error"});
 }
 }
+
+
+
+export const FindFriends = async(req, res)=> {
+    try {
+        const {username} = req.params;
+
+        const friend = await User.findOne({username});
+console.log('friend find', friend)
+        res.status(200).json(friend);
+    } catch (error) {
+        console.log(error, "error in friend controller");
+        res.status(500).json({message: "internal server error"})
+    }
+}

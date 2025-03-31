@@ -90,7 +90,7 @@ const Chatapp: FC<ChatappProps> = ({ recieverId }) => {
      <div className="flex-1 overflow-y-auto p-4 mb-16">
   {messages.map((msg, index) => (
     <div key={index}>
-      <p className="text-white m-4">
+      <p className="text-white m-1">
         {msg.sender === authUser?._id ? "You" : msg.reciever}: {msg.text}
       </p>
       <SidebarLine />
