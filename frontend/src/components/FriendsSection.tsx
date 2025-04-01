@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { axiosInstance } from "../../api/api";
 import { AxiosResponse } from "axios";
 import Userbatch from "./Userbatch";
+import { IoIosPersonAdd } from "react-icons/io";
 
 type FriendsSectionProps = {
     friends: IUser[] | undefined
@@ -70,7 +71,9 @@ const findUser = async (): Promise<void> => {
         </div>
       {
         findFriend ? (
-            searchedUser ? <p className="text-xl font-discord font-bold text-white"><Userbatch name={searchedUser.name} /></p>
+            searchedUser ? <p className="text-xl font-discord font-bold text-white"><Userbatch name={searchedUser.name}
+            icon={<IoIosPersonAdd />}
+            /></p>
             : <p className="text-lg font-discord font-bold text-white">User Not Found</p>
         ) : null
       }

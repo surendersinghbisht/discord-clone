@@ -17,9 +17,8 @@ const NavbarListItem = ({ icon, text }) => (
   </div>
 );
 
-
 interface NavbarProps {
- sharedData: {
+  sharedData: {
     friends: boolean,
     channels: boolean
   },
@@ -27,27 +26,37 @@ interface NavbarProps {
   getRecieverIdFromNav: any,
   setFriendsSecton: any
 }
-const Navbar:React.FC<NavbarProps> = ({sharedData, friends, getRecieverIdFromNav, setFriendsSecton}) => {
 
-  const sendRecieverId =(id: string)=> {
+const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverIdFromNav, setFriendsSecton }) => {
+
+  const sendRecieverId = (id: string) => {
     getRecieverIdFromNav(id)
   }
 
   return (
-    <div className=' w-36  px-3 py-3 h-screen flex flex-col bg-customcolor items-start'>
-      {sharedData.friends &&<div onClick={()=>setFriendsSecton(true)} className='flex space-x-4 m-2 hover:bg-custombg'><FaUserFriends className='ml-2 mt-1 text-white'/><h1 className='text-gray-200 font-discord font-semibold tracking-wider '>friends</h1>
-      </div>
-      }
-      {/* <h3 className='text-gray-200 font-semibold tracking-wider mb-2'>Channels</h3> */}
-{ sharedData.friends && friends?.map((friend)=> {
-  return (
-    <button onClick={()=> sendRecieverId(friend._id)}><Userbatch name={friend.name} image={friend.image} /></button>
-  )
-})}
+    <div className=' px-3 py-3 h-screen flex flex-col bg-customcolor items-start overflow-y-auto'>
+      {/* Friends Section */}
+      {sharedData.friends && (
+        <div onClick={() => setFriendsSecton(true)} className='flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
+          <FaUserFriends className='ml-2 mt-1 text-white' />
+          <h1 className='text-gray-200 font-discord font-semibold tracking-wider'>friends</h1>
+        </div>
+      )}
+
+      {/* List of Friends */}
+      {sharedData.friends && friends?.map((friend) => {
+        return (
+          <button onClick={() => sendRecieverId(friend._id)} key={friend._id}>
+            <Userbatch name={friend.name} image={friend.image} />
+          </button>
+        )
+      })}
+
+      {/* Other Navbar List Items */}
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Questions" />
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Random" />
-{/* {sharedData.directMessage &&<DirectMessages />} */}
+      {/* {sharedData.directMessage &&<DirectMessages />} */}
     </div>
   );
 };

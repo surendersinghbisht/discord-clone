@@ -58,17 +58,17 @@ setFriendsSecton(false);
 
 
   return (
-    <div className="flex bg-custombg h-screen">
+    <div className="flex  bg-custombg h-screen">
  
-    <div className="bg-gray-900 text-white h-screen z-50 fixed top-0 left-0 w-16  md:block">
+    <div className="bg-gray-900 text-white h-screen z-50 fixed top-0 left-0   md:block">
       <SideBar setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
     </div>
     
-    <div className="hidden md:block  h-screen fixed top-0 left-16 w-36 px-3 py-3 z-30">
+    <div className="w-80 hidden md:block  fixed top-0 left-14 px-3 py-3 z-30">
       <Navbar setFriendsSecton={setFriendsSectionData} getRecieverIdFromNav={getReciverId} sharedData={sharedData} friends={friends} />
     </div>
   
-    <div className="h-screen overflow-y-auto flex-1 ml-20 md:ml-[250px] bg-custombg"> 
+    <div className=" overflow-y-auto flex-1 ml-20 md:ml-[400px] bg-custombg"> 
       {chatApp && <ChatApp recieverId={recieverId} />}
       {FriendsSection && <FriendSection friends={friends}/>}
       {settingsPage && <SettingsPage />}
