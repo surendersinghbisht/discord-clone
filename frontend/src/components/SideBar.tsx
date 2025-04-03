@@ -28,8 +28,9 @@ type ChildProps = {
   sharedData: { friends: boolean; channels: boolean };
   setSharedData: React.Dispatch<React.SetStateAction<{ friends: boolean; channels: boolean }>>;
   setSettingsPage: React.Dispatch<React.SetStateAction<boolean>>;
+  setShownavbar: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData, setSettingsPage}) => {
+const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData, setSettingsPage, setShownavbar}) => {
 
 
 const {data: groups} = useQuery({
@@ -57,6 +58,7 @@ const firstWord = (str: string): string=> {
       friends: true
     });
     setSettingsPage(false);
+    setShownavbar(true);
   }
 
   return (

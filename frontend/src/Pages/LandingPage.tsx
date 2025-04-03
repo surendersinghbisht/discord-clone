@@ -7,6 +7,7 @@ import { IUser } from '@/models/User';
 import { axiosInstance } from '../../api/api';
 import FriendSection from "@/components/FriendsSection";
 import SettingsPage from "./SettingsPage";
+import { useEffect } from "react";
 
 type LandingPageProps = {};
 
@@ -56,14 +57,29 @@ setChatapp(false);
 setFriendsSecton(false);
 }
 
+const [isMobile, setIsMobile] = useState(false);
 
+// useEffect(() => {
+//   // const handleResize = () => {
+//   //   setIsMobile(window.innerWidth < 768); // Set the state to true if the screen size is less than 768px (mobile)
+//   // };
+
+//   handleResize(); // Run it once to set the initial state
+//   window.addEventListener("resize", handleResize);
+
+//   return () => {
+//     window.removeEventListener("resize", handleResize);
+//   };
+// }, []);
+
+const[showNavbar, setShownavbar] = useState(false);
   return (
     <div className="flex  bg-custombg h-screen">
 
-      <SideBar setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
+      <SideBar setShownavbar= {setShownavbar} setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
     
 
-      <Navbar setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} sharedData={sharedData} friends={friends} />
+      <Navbar setShownavbar={setShownavbar} showNavbar={showNavbar} setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} sharedData={sharedData} friends={friends} />
 
  
       {chatApp && <ChatApp reciever={reciever} />}
