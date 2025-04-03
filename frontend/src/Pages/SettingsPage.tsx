@@ -12,7 +12,7 @@ const[editUsername, setEditUsername] = useState(false);
 
 
   return (
-    <div className="min-h-screen bg-gray-900 w-full text-white flex justify-center items-center p-4 sm:p-6">
+    <div className="h-screen overflow-y-scroll bg-gray-900 w-full text-white flex justify-center items-center p-4 sm:p-6">
       <div className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
         <h2 className="text-2xl font-semibold text-center sm:text-left">
           My Account

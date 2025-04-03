@@ -12,22 +12,21 @@ export const messageController = (io) => {
 
     
     socket.on("sendMessage", async (data) => {
-      console.log("New message received:", data);
+      // console.log("New message received:", data);
 
       try {
 
         const message = new Message({
           text: data.text,
           sender: data.sender,
-          reciever: data.reciever._id, 
+          reciever: data.reciever, 
         });
-
+console.log('dave',message)
       const savedMessage = await message.save();
         const populatedMessage = await Message.findById(savedMessage._id)
         .populate('reciever', 'name username image')
         .populate('sender', 'name username image')   
       
-      console.log(populatedMessage);
 
         io.to(data.reciever._id).emit("receiveMessage", populatedMessage);
 
@@ -53,7 +52,8 @@ try {
       {sender: senderId, reciever: recieverId},
       {sender: recieverId, reciever: senderId}
       ]
-  }).sort({createdAt: 1});
+  }).populate("sender")
+  .populate("reciever").sort({createdAt: 1});
 
   res.status(200).json(messages);
 } catch (error) {
