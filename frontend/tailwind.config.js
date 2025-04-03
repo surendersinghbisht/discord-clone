@@ -13,8 +13,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-			customcolor:"#212125",
-			custombg:"#242428",
+			customcolor:"#121214",
+			discordColor: "#5865F2",
+			custombg:"#1A1A1E",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

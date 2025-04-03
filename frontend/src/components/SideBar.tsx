@@ -1,5 +1,6 @@
 import React, { memo, useState } from "react";
-import { FaFire } from "react-icons/fa";
+// import { FaFire } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa6";
 import { BsFillLightningFill, BsPlus } from "react-icons/bs";
 import { RiSettings3Fill } from "react-icons/ri";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -62,9 +63,9 @@ const firstWord = (str: string): string=> {
   }
 
   return (
-    <div className=" w-16 flex flex-col bg-customcolor sticky items-center mt-10  text-white shadow-lg">
+    <div className=" w-16 pl-3 flex flex-col bg-customcolor sticky items-center pt-10  text-white shadow-lg">
 
-        <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaFire size="28" />} text="Direct Message" /></button>   
+        <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaDiscord size="28" />} text="Direct Message" /></button>   
       <SidebarLine />
 
       {groups?.map((group)=> {
@@ -72,7 +73,7 @@ const firstWord = (str: string): string=> {
           <div className="">
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />
-  <AvatarFallback className="text-black">{firstWord(group.name)}</AvatarFallback>
+  <AvatarFallback className="text-custombg font-discord font-extrabold bg-white">{firstWord(group.name)}</AvatarFallback>
 </Avatar>
 } text={`${group.name} server` } />
           </div>
