@@ -60,7 +60,7 @@ const firstWord = (str: string): string=> {
   }
 
   return (
-    <div className=" w-16 flex flex-col bg-gray-900 items-center mt-10  text-white shadow-lg">
+    <div className=" w-16 flex flex-col bg-customcolor sticky items-center mt-10  text-white shadow-lg">
 
         <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaFire size="28" />} text="Direct Message" /></button>   
       <SidebarLine />

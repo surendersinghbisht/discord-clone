@@ -23,18 +23,18 @@ interface NavbarProps {
     channels: boolean
   },
   friends: IUser[] | undefined,
-  getRecieverIdFromNav: any,
+  getRecieverFromNav: any,
   setFriendsSecton: any
 }
 
-const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverIdFromNav, setFriendsSecton }) => {
+const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverFromNav, setFriendsSecton }) => {
 
-  const sendRecieverId = (id: string) => {
-    getRecieverIdFromNav(id)
+  const sendReciever = (reciever: IUser) => {
+    getRecieverFromNav(reciever)
   }
 
   return (
-    <div className=' px-3 py-3 h-screen flex flex-col bg-customcolor items-start overflow-y-auto'>
+    <div className=' w-80 px-3 py-3 h-screen sticky pt-10 flex flex-col bg-customcolor items-start overflow-y-auto'>
       {/* Friends Section */}
       {sharedData.friends && (
         <div onClick={() => setFriendsSecton(true)} className='flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverIdFromN
       {/* List of Friends */}
       {sharedData.friends && friends?.map((friend) => {
         return (
-          <button onClick={() => sendRecieverId(friend._id)} key={friend._id}>
+          <button onClick={() => sendReciever(friend)} key={friend._id}>
             <Userbatch name={friend.name} image={friend.image} />
           </button>
         )

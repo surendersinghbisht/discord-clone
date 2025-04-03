@@ -19,14 +19,17 @@ export const messageController = (io) => {
         const message = new Message({
           text: data.text,
           sender: data.sender,
-          reciever: data.reciever, 
+          reciever: data.reciever._id, 
         });
 
-       
+      const savedMessage = await message.save();
+        const populatedMessage = await Message.findById(savedMessage._id)
+        .populate('reciever', 'name username image')
+        .populate('sender', 'name username image')   
       
-        const savedMessage = await message.save(); 
-  
-        io.to(data.reciever).emit("receiveMessage", savedMessage);
+      console.log(populatedMessage);
+
+        io.to(data.reciever._id).emit("receiveMessage", populatedMessage);
 
       } catch (error) {
         console.error(" Error saving message:", error);

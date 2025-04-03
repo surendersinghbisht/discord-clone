@@ -31,13 +31,13 @@ const LandingPage: FC<LandingPageProps> = () => {
     })
  
 
-const[recieverId, setRecieverId] = useState("");
+const[reciever, setReciever] = useState<IUser | null>(null);
 const[chatApp, setChatapp] = useState(false);
 const[FriendsSection, setFriendsSecton] = useState(false);
 const[settingsPage, setSettingsPage] = useState(false);
 
-const getReciverId =(id)=> {
-setRecieverId(id)
+const getReciver =(reciever: IUser)=> {
+  setReciever(reciever);
 setChatapp(true);
 setFriendsSecton(false);
 setSettingsPage(false);
@@ -59,20 +59,17 @@ setFriendsSecton(false);
 
   return (
     <div className="flex  bg-custombg h-screen">
- 
-    <div className="bg-gray-900 text-white h-screen z-50 fixed top-0 left-0   md:block">
+
       <SideBar setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
-    </div>
     
-    <div className="w-80 hidden md:block  fixed top-0 left-14 px-3 py-3 z-30">
-      <Navbar setFriendsSecton={setFriendsSectionData} getRecieverIdFromNav={getReciverId} sharedData={sharedData} friends={friends} />
-    </div>
-  
-    <div className=" overflow-y-auto flex-1 ml-20 md:ml-[400px] bg-custombg"> 
-      {chatApp && <ChatApp recieverId={recieverId} />}
+
+      <Navbar setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} sharedData={sharedData} friends={friends} />
+
+ 
+      {chatApp && <ChatApp reciever={reciever} />}
       {FriendsSection && <FriendSection friends={friends}/>}
       {settingsPage && <SettingsPage />}
-    </div>
+
    
   </div>
   

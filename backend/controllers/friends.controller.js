@@ -2,9 +2,7 @@ import User from "../models/user.model.js";
 
 export const getFriends = async(req, res)=> {
 try {
-    console.log('ssaasss')
     const userId = req.user._id;
-    console.log(userId)
     if(!userId) {
         return res.status(400).json({message: "user not found"});
     }

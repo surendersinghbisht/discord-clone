@@ -12,7 +12,7 @@ const[editUsername, setEditUsername] = useState(false);
 
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gray-900 w-full text-white flex justify-center items-center p-4 sm:p-6">
       <div className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
         <h2 className="text-2xl font-semibold text-center sm:text-left">
           My Account
@@ -26,11 +26,17 @@ const[editUsername, setEditUsername] = useState(false);
         {/* Profile Section */}
         <div className="sm:justify-between relative flex flex-col sm:flex-row items-center sm:items-start -mt-10 px-4 sm:px-6">
           <div className="sm:flex">
-          <img
+         {authUser?.image ? <img
             className="w-20 h-20 rounded-full border-4 border-gray-900"
-            src="https://via.placeholder.com/80"
+            src={authUser?.image}
             alt="Profile"
-          />
+          /> : 
+          <img
+          className="w-20 h-20 rounded-full border-4 border-gray-900"
+          src="/user.jpg"
+          alt="Profile"
+        />
+          }
           <div className="sm:ml-4 text-center sm:text-left mt-4 sm:mt-0">
             <h3 className="text-xl font-semibold">{authUser?.name}</h3>
           </div>
