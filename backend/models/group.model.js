@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const groupSchema = mongoose.Schema({
+const groupSchema = new mongoose.Schema({
     name: {
 type: String,
 required: true
@@ -22,8 +22,12 @@ required: true
         type: mongoose.Schema.Types.ObjectId,
         ref: "message"
     }],
+    channels: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Channel"
+    }]
 },{timestamps: true})
 
-const group = new mongoose.model("Group", groupSchema);
+const group =  mongoose.model("Group", groupSchema);
 
 export default group;

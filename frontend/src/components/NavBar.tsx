@@ -4,7 +4,6 @@ import { IUser } from '@/models/User';
 import Userbatch from './Userbatch';
 import { FaUserFriends } from "react-icons/fa";
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 
 const NavbarListItem = ({ icon, text }) => (
   <div className='w-full flex justify-between items-center my-1 group'>
@@ -28,29 +27,20 @@ interface NavbarProps {
   getRecieverFromNav: any;
   setFriendsSecton: any;
   showNavbar: boolean;
+  channels: any[];
   setShownavbar:  React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
+const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth < 768); // Set the state to true if the screen size is less than 768px (mobile)
-  //   };
-
-  //   handleResize(); // Run it once to set the initial state
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
+ 
   const sendReciever = (reciever: IUser) => {
     getRecieverFromNav(reciever);
     setShownavbar(false);
 
   }
+
+ 
 
 
   return (
@@ -72,6 +62,19 @@ const Navbar: React.FC<NavbarProps> = ({ sharedData, friends, getRecieverFromNav
           </div>
         )
       })}
+
+      {
+        sharedData.channels && (
+          channels?.map((channel)=> {
+            return (
+              <div className='flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
+                <FaUserFriends className='ml-2 mt-1 text-white' />
+                <h1 className='text-gray-200 font-discord font-semibold tracking-wider'>{channel.name}</h1>
+              </div>
+            )
+          })
+        )
+      }
 
       {/* Other Navbar List Items */}
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />

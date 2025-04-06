@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 const userScehma = new mongoose.Schema({
     name: {
         type: String,
@@ -38,7 +38,11 @@ const userScehma = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Group"
     }
-   ]
+   ],
+   inChannels : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Channel"
+   }]
 },{ timestamps: true });
 
 const User = mongoose.model("User", userScehma);

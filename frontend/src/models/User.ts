@@ -9,6 +9,7 @@ export interface IUser {
     location?: string;
     friends: string[]; 
     inGroups: string[];
+    inChannels: string[];
     createdAt: string;
     updatedAt: string;
   }

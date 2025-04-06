@@ -32,6 +32,8 @@ const LandingPage: FC<LandingPageProps> = () => {
     })
  
 
+  
+
 const[reciever, setReciever] = useState<IUser | null>(null);
 const[chatApp, setChatapp] = useState(false);
 const[FriendsSection, setFriendsSecton] = useState(false);
@@ -49,12 +51,14 @@ const setFriendsSectionData =(data:boolean)=> {
   setFriendsSecton(data);
   setChatapp(false);
   setSettingsPage(false);
+  
 }
 
 const settinngPageView = (data:boolean) => {
 setSettingsPage(data);
 setChatapp(false);
 setFriendsSecton(false);
+setShownavbar(false);
 }
 
 const [isMobile, setIsMobile] = useState(false);
@@ -72,14 +76,26 @@ const [isMobile, setIsMobile] = useState(false);
 //   };
 // }, []);
 
+const[channels, setChannels] = useState([]);
+
+const getChannelsForGroup = async(id: string)=> {
+const res = await axiosInstance.get(`/group/get-channels/${id}`);
+setChannels(res.data);
+}
+
 const[showNavbar, setShownavbar] = useState(false);
   return (
     <div className="flex  bg-custombg h-screen">
 
-      <SideBar setShownavbar= {setShownavbar} setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
+      <SideBar getChannels={getChannelsForGroup} setShownavbar= {setShownavbar} setSettingsPage={settinngPageView} sharedData={sharedData} setSharedData={setSharedData} />
     
 
-      <Navbar setShownavbar={setShownavbar} showNavbar={showNavbar} setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} sharedData={sharedData} friends={friends} />
+      <Navbar
+      channels = {channels}
+       setShownavbar={setShownavbar} showNavbar={showNavbar} 
+       setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} 
+       sharedData={sharedData} friends={friends} 
+       />
 
  
       {chatApp && <ChatApp reciever={reciever} />}

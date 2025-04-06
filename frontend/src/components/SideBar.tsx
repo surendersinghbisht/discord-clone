@@ -26,12 +26,13 @@ const SidebarLine = () => (
 );
 
 type ChildProps = {
-  sharedData: { friends: boolean; channels: boolean };
+  // sharedData: { friends: boolean; channels: boolean };
   setSharedData: React.Dispatch<React.SetStateAction<{ friends: boolean; channels: boolean }>>;
   setSettingsPage: React.Dispatch<React.SetStateAction<boolean>>;
   setShownavbar: React.Dispatch<React.SetStateAction<boolean>>;
+  getChannels:any;
 };
-const SideBar:React.FC<ChildProps> = ({sharedData, setSharedData, setSettingsPage, setShownavbar}) => {
+const SideBar:React.FC<ChildProps> = ({getChannels, setSharedData, setSettingsPage, setShownavbar}) => {
 
 
 const {data: groups} = useQuery({
@@ -62,6 +63,18 @@ const firstWord = (str: string): string=> {
     setShownavbar(true);
   }
 
+  const setChannelsData = (id: string)=> {
+    setSharedData({
+      channels: true,
+      friends: false
+    });
+    setSettingsPage(false);
+    setShownavbar(true);
+    getChannels(id);
+  }
+
+
+
   return (
     <div className=" w-16 pl-3 flex flex-col bg-customcolor sticky items-center pt-10  text-white shadow-lg">
 
@@ -71,11 +84,13 @@ const firstWord = (str: string): string=> {
       {groups?.map((group)=> {
         return (
           <div className="">
+            <button onClick={()=>setChannelsData(group._id)}>
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />
   <AvatarFallback className="text-custombg font-discord font-extrabold bg-white">{firstWord(group.name)}</AvatarFallback>
 </Avatar>
 } text={`${group.name} server` } />
+</button>
           </div>
         )
       })}
