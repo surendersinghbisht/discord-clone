@@ -8,6 +8,8 @@ import { axiosInstance } from '../../api/api';
 import FriendSection from "@/components/FriendsSection";
 import SettingsPage from "./SettingsPage";
 import { useEffect } from "react";
+import OfficialDiscordMessage from "@/components/DiscordMessage";
+import DiscordOfficialMessage from "@/components/DiscordOffilcal";
 
 type LandingPageProps = {};
 
@@ -38,12 +40,14 @@ const[reciever, setReciever] = useState<IUser | null>(null);
 const[chatApp, setChatapp] = useState(false);
 const[FriendsSection, setFriendsSecton] = useState(false);
 const[settingsPage, setSettingsPage] = useState(false);
+const [officialDiscord, setOfficialDiscord] = useState(false);
 
 const getReciver =(reciever: IUser)=> {
   setReciever(reciever);
 setChatapp(true);
 setFriendsSecton(false);
 setSettingsPage(false);
+setOfficialDiscord(false);
 }
 
 
@@ -51,7 +55,8 @@ const setFriendsSectionData =(data:boolean)=> {
   setFriendsSecton(data);
   setChatapp(false);
   setSettingsPage(false);
-  
+  setShownavbar(false);
+  setOfficialDiscord(false);
 }
 
 const settinngPageView = (data:boolean) => {
@@ -59,22 +64,18 @@ setSettingsPage(data);
 setChatapp(false);
 setFriendsSecton(false);
 setShownavbar(false);
+setOfficialDiscord(false);
 }
 
-const [isMobile, setIsMobile] = useState(false);
+const setOfficialDiscordMessage = (data: boolean) => {
+  setOfficialDiscord(data);
+  setChatapp(false);
+  setFriendsSecton(false);
+  setSettingsPage(false);
+  setShownavbar(false);
+}
 
-// useEffect(() => {
-//   // const handleResize = () => {
-//   //   setIsMobile(window.innerWidth < 768); // Set the state to true if the screen size is less than 768px (mobile)
-//   // };
 
-//   handleResize(); // Run it once to set the initial state
-//   window.addEventListener("resize", handleResize);
-
-//   return () => {
-//     window.removeEventListener("resize", handleResize);
-//   };
-// }, []);
 
 const[channels, setChannels] = useState([]);
 
@@ -91,6 +92,7 @@ const[showNavbar, setShownavbar] = useState(false);
     
 
       <Navbar
+      setOfficialDiscord={setOfficialDiscordMessage}
       channels = {channels}
        setShownavbar={setShownavbar} showNavbar={showNavbar} 
        setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} 
@@ -99,6 +101,7 @@ const[showNavbar, setShownavbar] = useState(false);
 
  
       {chatApp && <ChatApp reciever={reciever} />}
+      {officialDiscord && <DiscordOfficialMessage />}
       {FriendsSection && <FriendSection friends={friends}/>}
       {settingsPage && <SettingsPage />}
 

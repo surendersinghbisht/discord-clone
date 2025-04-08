@@ -15,7 +15,7 @@ export default {
   		colors: {
 			customcolor:"#121214",
 			discordColor: "#5865F2",
-			custombg:"#1A1A1E",
+			custombg:"#313338",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

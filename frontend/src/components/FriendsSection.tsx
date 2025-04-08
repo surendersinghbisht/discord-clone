@@ -7,6 +7,7 @@ import { axiosInstance } from "../../api/api";
 import { AxiosResponse } from "axios";
 import Userbatch from "./Userbatch";
 import { IoIosPersonAdd } from "react-icons/io";
+import DiscordMessageInput from "./DiscordMessageInput";
 
 type FriendsSectionProps = {
     friends: IUser[] | undefined
@@ -42,6 +43,7 @@ const findUser = async (): Promise<void> => {
     }
   };
 
+
   return( 
   <div className="p-10">
     <div className="flex space-x-2 m-4">
@@ -52,20 +54,20 @@ const findUser = async (): Promise<void> => {
         <Button onClick={showMyFriends} className="font-bold">All</Button>
         <Button onClick={addingFriend} className="font-bold bg-violet-600">Add Friends</Button>
         </div>
-    {showAllFriends && friends?.map((friend)=>{
+    {showAllFriends && (friends?.length > 0 ? friends?.map((friend)=>{
         return (
             <div className="font-bold font-discord text-gray-200 mt-8 text-xl">
                  <h1>{friend.name}</h1> 
             </div>
         )
-    })}
+    }) : <div className="font-discord font-xl font-bold mt-6 text-white">No Friends Found .... you can add some friends from Add friends section!</div>)}
     {addFriends && <div className="mt-6 flex space-y-8 flex-col">
-        <div className="flex ">
+        <div className="flex space-x-2">
         <Input
-        placeholder="Search"
+        placeholder="Enter Username"
         value={username} 
         onChange={(e)=>setUsername(e.target.value)}
-          className="bg-customcolor outline-none w-2/3 placeholder:text-white font-bold border-gray-700 text-white font-discord"
+          className="bg-[#2B2D31]  border-none outline-none w-2/3 placeholder:text-white font-bold border-gray-700 text-white font-discord"
         />
         <Button onClick={findUser}>Search</Button>
         </div>

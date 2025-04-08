@@ -4,6 +4,7 @@ import { IUser } from '@/models/User';
 import Userbatch from './Userbatch';
 import { FaUserFriends } from "react-icons/fa";
 import React, { useState } from 'react';
+import OfficialDiscordMessage from './DiscordMessage';
 
 const NavbarListItem = ({ icon, text }) => (
   <div className='w-full flex justify-between items-center my-1 group'>
@@ -29,9 +30,10 @@ interface NavbarProps {
   showNavbar: boolean;
   channels: any[];
   setShownavbar:  React.Dispatch<React.SetStateAction<boolean>>;
+  setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
+const Navbar: React.FC<NavbarProps> = ({ setOfficialDiscord, channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
 
  
   const sendReciever = (reciever: IUser) => {
@@ -39,8 +41,6 @@ const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecie
     setShownavbar(false);
 
   }
-
- 
 
 
   return (
@@ -54,6 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecie
       )}
 
       {/* List of Friends */}
+      {sharedData.friends && <div className='mt-4'><button onClick={()=>setOfficialDiscord(true)}><OfficialDiscordMessage /></button></div>}
       {sharedData.friends && friends?.map((friend) => {
         return (<div>
           <button onClick={() => sendReciever(friend)} key={friend._id}>
@@ -67,8 +68,7 @@ const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecie
         sharedData.channels && (
           channels?.map((channel)=> {
             return (
-              <div className='flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
-                <FaUserFriends className='ml-2 mt-1 text-white' />
+              <div className='flex space-x-4 m-2  cursor-pointer hover:bg-custombg'>
                 <h1 className='text-gray-200 font-discord font-semibold tracking-wider'>{channel.name}</h1>
               </div>
             )
@@ -77,9 +77,9 @@ const Navbar: React.FC<NavbarProps> = ({ channels, sharedData, friends, getRecie
       }
 
       {/* Other Navbar List Items */}
-      <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />
+      {/* <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />
       <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Questions" />
-      <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Random" />
+      <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Random" /> */}
       {/* {sharedData.directMessage &&<DirectMessages />} */}
     </div>
   );

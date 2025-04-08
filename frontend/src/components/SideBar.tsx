@@ -76,7 +76,7 @@ const firstWord = (str: string): string=> {
 
 
   return (
-    <div className=" w-16 pl-3 flex flex-col bg-customcolor sticky items-center pt-10  text-white shadow-lg">
+    <div className=" w-18 p-3 flex flex-col bg-customcolor sticky items-center pt-10  text-white shadow-lg">
 
         <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaDiscord size="28" />} text="Direct Message" /></button>   
       <SidebarLine />
