@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { FC, memo, useState } from "react";
 import { axiosInstance } from "../../api/api";
 import {toast} from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 type signupProps = {};
 
@@ -117,7 +118,7 @@ signUpMutation(formData);
         </button>
 
         <p className="text-sm text-gray-400 text-center">
-          Already have an account? <span className="text-indigo-400 hover:underline cursor-pointer">Login</span>
+          Already have an account? <span className="text-indigo-400 hover:underline cursor-pointer"><Link to="/login">Login</Link></span>
         </p>
       </form>
     </div>

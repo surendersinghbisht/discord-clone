@@ -5,6 +5,9 @@ import Userbatch from './Userbatch';
 import { FaUserFriends } from "react-icons/fa";
 import React, { useState } from 'react';
 import OfficialDiscordMessage from './DiscordMessage';
+import  {FaChevronDown} from 'react-icons/fa';
+import ServerDropdownMenu from './Serverdropdown';
+import CreateChannelModal from './CreateChannel';
 
 const NavbarListItem = ({ icon, text }) => (
   <div className='w-full flex justify-between items-center my-1 group'>
@@ -30,10 +33,11 @@ interface NavbarProps {
   showNavbar: boolean;
   channels: any[];
   setShownavbar:  React.Dispatch<React.SetStateAction<boolean>>;
-  setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>
+  setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>;
+  groupName: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setOfficialDiscord, channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
+const Navbar: React.FC<NavbarProps> = ({ groupName, setOfficialDiscord, channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
 
  
   const sendReciever = (reciever: IUser) => {
@@ -41,6 +45,12 @@ const Navbar: React.FC<NavbarProps> = ({ setOfficialDiscord, channels, sharedDat
     setShownavbar(false);
 
   }
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  // Toggle function for showing or hiding the dropdown
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
 
   return (
@@ -63,18 +73,46 @@ const Navbar: React.FC<NavbarProps> = ({ setOfficialDiscord, channels, sharedDat
           </div>
         )
       })}
+      
+{sharedData.channels && (
+  channels?.map((channel) => {
+    return (
+      <div key={channel.id} className="relative w-full">
+        {/* Toggle Dropdown Button */}
+        <div
+          onClick={toggleDropdown}
+          className="flex border border-[#3c3f45] rounded-lg text-lg mt-4 w-full text-gray-200 items-center justify-between font-semibold px-2 py-1 cursor-pointer"
+        >
+          <span>{groupName}</span>
+          <FaChevronDown className="text-lg" />
+        </div>
 
-      {
-        sharedData.channels && (
-          channels?.map((channel)=> {
-            return (
-              <div className='flex space-x-4 m-2  cursor-pointer hover:bg-custombg'>
-                <h1 className='text-gray-200 font-discord font-semibold tracking-wider'>{channel.name}</h1>
-              </div>
-            )
-          })
-        )
-      }
+        {/* Dropdown Below Button */}
+        {isDropdownOpen && (
+          <div className="absolute  left-0 mt-2 z-10 w-full sm:w-64">
+            <ServerDropdownMenu
+              openModal={() => setIsModalOpen(true)}
+              closeMenu={() => setIsDropdownOpen(false)}
+            />
+            <CreateChannelModal
+              isOpen={isModalOpen}
+              closeModal={() => setIsModalOpen(false)}
+            />
+            
+          </div>
+        )}
+
+        {/* Channel Entry */}
+        <div className="mt-5 flex space-x-4 m-2 cursor-pointer hover:bg-custombg">
+          <h1 className="text-gray-200 font-discord font-semibold tracking-wider">
+            {channel.name}
+          </h1>
+        </div>
+      </div>
+    );
+  })
+)}
+
 
       {/* Other Navbar List Items */}
       {/* <NavbarListItem icon={<MdKeyboardArrowRight size={20} className='text-green-500' />} text="Topics" />

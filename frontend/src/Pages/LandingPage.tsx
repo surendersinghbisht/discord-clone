@@ -79,10 +79,12 @@ const setOfficialDiscordMessage = (data: boolean) => {
 
 
 const[channels, setChannels] = useState([]);
+const[groupName, setGroupname] = useState<string>("");
 
-const getChannelsForGroup = async(id: string)=> {
+const getChannelsForGroup = async(id: string, groupName: string)=> {
 const res = await axiosInstance.get(`/group/get-channels/${id}`);
 setChannels(res.data);
+setGroupname(groupName);
 }
 
 const[showNavbar, setShownavbar] = useState(false);
@@ -95,9 +97,13 @@ const[showNavbar, setShownavbar] = useState(false);
       <Navbar
       setOfficialDiscord={setOfficialDiscordMessage}
       channels = {channels}
-       setShownavbar={setShownavbar} showNavbar={showNavbar} 
-       setFriendsSecton={setFriendsSectionData} getRecieverFromNav={getReciver} 
-       sharedData={sharedData} friends={friends} 
+      groupName={groupName}
+       setShownavbar={setShownavbar} 
+       showNavbar={showNavbar} 
+       setFriendsSecton={setFriendsSectionData}
+        getRecieverFromNav={getReciver} 
+       sharedData={sharedData} 
+       friends={friends} 
        />
 
  

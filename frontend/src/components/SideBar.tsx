@@ -64,14 +64,14 @@ const firstWord = (str: string): string=> {
     setShownavbar(true);
   }
 
-  const setChannelsData = (id: string)=> {
+  const setChannelsData = (id: string, groupName: string)=> {
     setSharedData({
       channels: true,
       friends: false
     });
     setSettingsPage(false);
     setShownavbar(true);
-    getChannels(id);
+getChannels(id, groupName);
   }
 
 
@@ -88,8 +88,8 @@ const showToast = ()=> {
 
       {groups?.map((group)=> {
         return (
-          <div className="">
-            <button onClick={()=>setChannelsData(group._id)}>
+          <div className=""> 
+            <button onClick={()=>setChannelsData(group._id, group.name)}>
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />
   <AvatarFallback className="text-custombg  font-bold font-discord  bg-white">{firstWord(group.name)}</AvatarFallback>
