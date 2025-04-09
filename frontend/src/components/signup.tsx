@@ -45,92 +45,83 @@ signUpMutation(formData);
   }
 
   return (
-    
-      <form onSubmit={submitForm}>
-    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-    <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
-      <div className="flex-1 bg-blue-900 text-center hidden md:flex">
-        <div
-          className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url(https://www.tailwindtap.com/assets/common/marketing.svg)`,
-          }}
-        ></div>
-      </div>
-      <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-        <div className=" flex flex-col items-center">
-          <div className="text-center">
-            <h1 className="text-2xl xl:text-4xl font-extrabold text-blue-900">
-              Student Sign up
-            </h1>
-            <p className="text-[12px] text-gray-500">
-              Hey enter your details to create your account
-            </p>
-          </div>
-          <div className="w-full flex-1 mt-8">
-            <div className="mx-auto max-w-xs flex flex-col gap-4">
-              <input
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="text"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleChange}
-                name="name"
-              />
-              <input
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="text"
-                value={formData.username}
-                placeholder="Enter your user name"
-                onChange={handleChange}
-                name="username"
-              />
-              <input
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="email"
-                value={formData.email}
-                placeholder="Enter your email"
-                onChange={handleChange}
-                name="email"
-              />
-              <input
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="password"
-                value={formData.password}
-                placeholder="Password"
-                onChange={handleChange}
-                name="password"
-              />
-              <button className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-              type="submit"
-              >
-                <svg
-                  className="w-6 h-6 -ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  strokeLinecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                  <circle cx="8.5" cy="7" r="4" />
-                  <path d="M20 8v6M23 11h-6" />
-                </svg>
-                <span className="ml-3">Sign Up</span>
-              </button>
-              <p className="mt-6 text-xs text-gray-600 text-center">
-                Already have an account?{" "}
-                <a href="">
-                  <span className="text-blue-900 font-semibold">Sign in</span>
-                </a>
-              </p>
-            </div>
-          </div>
+    <div
+    className="min-h-screen flex items-center px-4 justify-center bg-cover bg-center"
+    style={{ backgroundImage: "url('/login.png')" }} // Replace with your image path
+  >
+    <div className="bg-[#2c2f33] text-white w-full max-w-md rounded-lg shadow-lg p-8">
+      <h2 className="text-2xl font-semibold text-center mb-6">
+        Create an account
+      </h2>
+
+      <form onSubmit={submitForm} className="space-y-4">
+      <div>
+          <label className="text-xs uppercase text-gray-300 mb-1 block">
+            Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            className="w-full bg-[#23272a] text-white border border-[#202225] rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
         </div>
-      </div>
+        <div>
+          <label className="text-xs uppercase text-gray-300 mb-1 block">
+            Username
+          </label>
+          <input
+            type="text"
+            value={formData.username}
+            name="username"
+            onChange={handleChange}
+            placeholder="Choose a username"
+            className="w-full bg-[#23272a] text-white border border-[#202225] rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div>
+          <label className="text-xs uppercase text-gray-300 mb-1 block">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            onChange={handleChange}
+            value={formData.email}
+            placeholder="Enter your email"
+            className="w-full bg-[#23272a] text-white border border-[#202225] rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>  
+
+        <div>
+          <label className="text-xs uppercase text-gray-300 mb-1 block">
+            Password
+          </label>
+          <input
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+            type="password"
+            placeholder="Create a password"
+            className="w-full bg-[#23272a] text-white border border-[#202225] rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-indigo-500 hover:bg-indigo-600 transition-colors text-white font-semibold py-2 rounded"
+        >
+          Continue
+        </button>
+
+        <p className="text-sm text-gray-400 text-center">
+          Already have an account? <span className="text-indigo-400 hover:underline cursor-pointer">Login</span>
+        </p>
+      </form>
     </div>
   </div>
-  </form>
    
   )
 };

@@ -104,17 +104,22 @@ const Login = () => {
         </div>
 
         {/* Right - QR Section */}
-        <div className="hidden sm:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-[#202225] p-8 flex flex-col items-center justify-center text-center">
-          <img
-            src="/qr-placeholder.png"
-            alt="QR Code"
-            className="w-40 h-40 mb-4"
-          />
-          <h3 className="text-lg font-semibold">Log in with QR Code</h3>
-          <p className="text-sm text-gray-300 mt-2">
-            Scan this with the <span className="font-semibold">Discord mobile app</span> to log in instantly.
-          </p>
-        </div>
+        <div className="hidden sm:flex w-full md:w-1/2 border-t md:border-t-0 md:border-l border-[#202225] p-8 items-center justify-center">
+  <div className="flex flex-col items-center text-center">
+    <img
+      src="/discord-logo.png"
+      alt="QR Code"
+      className="w-40 h-40 mb-4"
+    />
+    <h3 className="text-lg font-semibold">Log in.</h3>
+    <p className="text-sm text-gray-300 mt-2">
+  This is a Discord clone. <span className="font-semibold">Developed By Surender.</span><br />
+  Don’t have an account? <span className="text-indigo-400 hover:underline cursor-pointer"><Link to="/signup">Register a new account</Link></span>.
+</p>
+
+  </div>
+</div>
+
       </form>
     </div>
   );

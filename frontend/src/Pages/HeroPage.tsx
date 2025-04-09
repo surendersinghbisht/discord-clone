@@ -1,5 +1,3 @@
-import { LogIn } from 'lucide-react';
-import React from 'react';
 import { FaDiscord } from "react-icons/fa"; 
 import { Link } from 'react-router-dom';
 
@@ -12,7 +10,10 @@ const HeroSection = () => {
     <FaDiscord className='text-white w-8 h-8 mt-1' />
     <span className="text-xl font-bold">Discord</span>
   </div>
+  <div className="space-x-4">
   <button className="bg-white text-black px-4 py-2 rounded-full font-semibold hover:shadow-lg"><Link to="/login">Login</Link></button>
+  <button className="bg-white text-black px-4 py-2 rounded-full font-semibold hover:shadow-lg"><Link to="/signup">Signup</Link></button>
+  </div>
 </nav>
 
 
