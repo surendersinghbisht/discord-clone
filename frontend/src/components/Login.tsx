@@ -2,30 +2,30 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../api/api";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const query = useQueryClient();
-  
+
   const [formData, setFormData] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
   });
 
-  const {mutate: submitFormMutation, isPending} = useMutation({
-  mutationFn: async(data: {email: string, password: string})=>{
-const res = await axiosInstance.post("/auth/login", data);
-return res.data;
-  },
-  onSuccess: ()=> {
-    toast.success("logged in successfully");
-     query.invalidateQueries({queryKey: ["authUser"]})
-
-  },
-  onError: (error:any)=> {
-    console.log(error.response.data.message )
-    toast.error(error.response.data.message || "something went wrong");
-  }
-  })
+  const { mutate: submitFormMutation, isPending } = useMutation({
+    mutationFn: async (data: { email: string; password: string }) => {
+      const res = await axiosInstance.post("/auth/login", data);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Logged in successfully");
+      query.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error: any) => {
+      console.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    },
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormData({
@@ -36,72 +36,86 @@ return res.data;
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-   submitFormMutation(formData)
-   
+    submitFormMutation(formData);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-zinc-950 min-h-screen pb-5">
-      <div className="mx-auto flex w-full flex-col justify-center px-5 md:max-w-[50%] lg:max-w-[50%] lg:px-6">
-        <div className="my-auto mt-8 flex flex-col w-[350px] mx-auto">
-          <p className="text-[32px] font-bold text-white">Sign In</p>
-          <p className="mb-2.5 mt-2.5 text-zinc-400">Enter your email and password to sign in!</p>
+    <div className="min-h-screen bg-[url('/login.png')] bg-cover bg-center flex items-center justify-center px-4">
+      <form onSubmit={submitForm} className="w-full max-w-4xl bg-[#2C2F33]/95 text-white rounded-lg shadow-lg flex flex-col md:flex-row overflow-hidden">
+        {/* Left - Login Form */}
+        <div className="w-full md:w-1/2 p-8">
+          <h2 className="text-2xl font-bold mb-1">Welcome back!</h2>
+          <p className="text-sm text-gray-300 mb-6">We're so excited to see you again!</p>
 
-          <div className="mt-8">
-            <form className="pb-2">
-              <button className="flex items-center justify-center w-full text-white border border-zinc-800 py-3 rounded-md hover:bg-accent">
-                <span className="mr-2">🔵</span>
-                <span>Sign in with Google</span>
-              </button>
-            </form>
-          </div>
-
-          <div className="relative my-4 flex items-center">
-            <div className="flex-1 border-t border-zinc-800"></div>
-          </div>
-
-          {/* ✅ Corrected onSubmit placement */}
-          <form className="mb-4" onSubmit={submitForm}>
-            <div className="grid gap-2">
-              <label className="text-white" htmlFor="email">
-                Email
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="email" className="text-xs font-semibold uppercase block mb-1">
+                Email or Phone Number <span className="text-red-500">*</span>
               </label>
               <input
-                className="w-full p-3 bg-zinc-950 border border-zinc-800 text-white rounded-md focus:outline-none"
-                id="email"
                 type="email"
-                placeholder="name@example.com"
+                id="email"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
-                name="email"
+                placeholder="Enter your email"
+                className="w-full px-3 py-2 bg-[#1E1F22] border border-[#1E1F22] rounded-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                required
               />
+            </div>
 
-              <label className="text-white mt-2" htmlFor="password">
-                Password
+            <div>
+              <label htmlFor="password" className="text-xs font-semibold uppercase block mb-1">
+                Password <span className="text-red-500">*</span>
               </label>
               <input
-                id="password"
                 type="password"
-                className="w-full p-3 bg-zinc-950 border border-zinc-800 text-white rounded-md focus:outline-none"
-                placeholder="Password"
+                id="password"
+                name="password"
                 value={formData.password}
                 onChange={handleChange}
-                name="password"
+                placeholder="Enter your password"
+                className="w-full px-3 py-2 bg-[#1E1F22] border border-[#1E1F22] rounded-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                required
               />
-
-              {isPending? <h1>...loading</h1>:<button type="submit" className="mt-6 w-full bg-white text-zinc-950 py-3 rounded-md hover:bg-white/90">
-                Sign in
-              </button>}
             </div>
-          </form>
 
-          <p>
-            <a href="/signup" className="text-white text-sm">
-              Don't have an account? Sign up
-            </a>
+            <div className="text-sm text-indigo-400 hover:underline">
+              <a href="#">Forgot your password?</a>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className={`w-full bg-indigo-500 hover:bg-indigo-600 transition px-4 py-2 rounded-sm font-medium ${
+                isPending ? "opacity-60 cursor-not-allowed" : ""
+              }`}
+            >
+              {isPending ? "Logging in..." : "Log In"}
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-400 mt-6">
+            Need an account?{" "}
+            <Link to="/signup" className="text-indigo-400 hover:underline">
+              Register
+            </Link>
           </p>
         </div>
-      </div>
+
+        {/* Right - QR Section */}
+        <div className="hidden sm:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-[#202225] p-8 flex flex-col items-center justify-center text-center">
+          <img
+            src="/qr-placeholder.png"
+            alt="QR Code"
+            className="w-40 h-40 mb-4"
+          />
+          <h3 className="text-lg font-semibold">Log in with QR Code</h3>
+          <p className="text-sm text-gray-300 mt-2">
+            Scan this with the <span className="font-semibold">Discord mobile app</span> to log in instantly.
+          </p>
+        </div>
+      </form>
     </div>
   );
 };

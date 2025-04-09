@@ -7,6 +7,7 @@ import {axiosInstance} from "../api/api"
 import toast, { Toaster } from "react-hot-toast"
 // import { IUser } from "./models/User"
 import LoginPage from "./Pages/LoginPage"
+import HeroSection from "./Pages/HeroPage"
 function App() {
 
   const { data: authUser, isLoading } = useQuery({
@@ -34,7 +35,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={authUser?<LandingPage />:<SignUpPage />}/>
+        <Route path="/" element={authUser?<LandingPage />:<HeroSection />}/>
         <Route path="/signup" element={!authUser? <SignUpPage />: <Navigate to="/" />} />
         <Route path="/login" element={!authUser? <LoginPage />: <Navigate to="/" />} />
       </Routes>

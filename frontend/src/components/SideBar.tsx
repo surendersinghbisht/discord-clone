@@ -8,6 +8,7 @@ import { axiosInstance } from "../../api/api";
 import { Dialog } from "./ui/dialog";
 import Addserver from "./Addserver";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import toast from "react-hot-toast";
 
 
 
@@ -74,6 +75,10 @@ const firstWord = (str: string): string=> {
   }
 
 
+  
+const showToast = ()=> {
+  toast.error("Sorry this feature is not available right now!");
+}
 
   return (
     <div className=" w-18 p-3 flex flex-col bg-customcolor sticky items-center pt-10  text-white shadow-lg">
@@ -87,7 +92,7 @@ const firstWord = (str: string): string=> {
             <button onClick={()=>setChannelsData(group._id)}>
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />
-  <AvatarFallback className="text-custombg font-discord font-extrabold bg-white">{firstWord(group.name)}</AvatarFallback>
+  <AvatarFallback className="text-custombg  font-bold font-discord  bg-white">{firstWord(group.name)}</AvatarFallback>
 </Avatar>
 } text={`${group.name} server` } />
 </button>
@@ -95,7 +100,7 @@ const firstWord = (str: string): string=> {
         )
       })}
       
-      <SidebarIcon icon={<BsFillLightningFill size="28" />} text="Upgrade to Pro" />
+      <button onClick={showToast}><SidebarIcon icon={<BsFillLightningFill size="28" />} text="Upgrade to Pro" /></button>
       {/* <SidebarIcon icon={<FaPoo size="28" />} text="Poop Time ?" /> */}
       <Addserver />
       <SidebarLine />

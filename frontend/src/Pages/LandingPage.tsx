@@ -10,6 +10,7 @@ import SettingsPage from "./SettingsPage";
 import { useEffect } from "react";
 import OfficialDiscordMessage from "@/components/DiscordMessage";
 import DiscordOfficialMessage from "@/components/DiscordOffilcal";
+import HeroSection from "./HeroPage";
 
 type LandingPageProps = {};
 

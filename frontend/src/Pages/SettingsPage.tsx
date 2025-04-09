@@ -1,9 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { IUser } from "@/models/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../../api/api";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { FiLogOut } from "react-icons/fi";
+import {axiosInstance} from "../../api/api";
+
 
 const SettingsPage = () => {
   const { data: authUser } = useQuery<IUser>({
@@ -53,6 +55,23 @@ const handleSave =()=> {
   setEditUsername(false);
   editMutation(editedData);
 }
+
+const logout = async () => {
+  try {
+    await axiosInstance.post("/auth/logout");
+    toast.success("Logged out successfully");
+
+    // Optionally invalidate auth-related queries
+    query.removeQueries({ queryKey: ["authUser"] });
+
+    // Redirect user to login or home
+    window.location.href = "/login";
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to log out. Try again.");
+  }
+};
+
 
   return (
     <div className="h-screen overflow-y-scroll bg-custombg w-full text-white flex justify-center items-center p-4 sm:p-6">
@@ -130,12 +149,12 @@ const handleSave =()=> {
 
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-3">
-            <div>
-              <p className="text-gray-400 text-sm">Phone Number</p>
-              <p className="text-gray-400">You haven't added a phone number yet.</p>
-            </div>
-            <button className="mt-2 sm:mt-0 bg-gray-600 px-4 py-1 rounded text-sm">
-              Add
+           
+            <button
+            onClick={logout}
+            className="mt-2 h-8 hover:bg-red-400 sm:mt-0 space-x-8 bg-red-500 text-white font-bold px-4 flex py-1 rounded text-sm">
+
+             <span><FiLogOut className="mt-1"/></span> Logout
             </button>
           </div>
         </div>
