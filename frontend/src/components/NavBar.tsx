@@ -35,9 +35,10 @@ interface NavbarProps {
   setShownavbar:  React.Dispatch<React.SetStateAction<boolean>>;
   setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>;
   groupName: string;
+  groupId: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ groupName, setOfficialDiscord, channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
+const Navbar: React.FC<NavbarProps> = ({ groupId,groupName, setOfficialDiscord, channels, sharedData, friends, getRecieverFromNav, setFriendsSecton, showNavbar,setShownavbar }) => {
 
  
   const sendReciever = (reciever: IUser) => {
@@ -64,7 +65,10 @@ const Navbar: React.FC<NavbarProps> = ({ groupName, setOfficialDiscord, channels
       )}
 
       {/* List of Friends */}
-      {sharedData.friends && <div className='mt-4'><button onClick={()=>setOfficialDiscord(true)}><OfficialDiscordMessage /></button></div>}
+      {sharedData.friends && <div className='mt-4'><button onClick={()=>setOfficialDiscord(true)}>
+        <OfficialDiscordMessage /></button>
+        </div>
+        }
       {sharedData.friends && friends?.map((friend) => {
         return (<div>
           <button onClick={() => sendReciever(friend)} key={friend._id}>
@@ -73,28 +77,28 @@ const Navbar: React.FC<NavbarProps> = ({ groupName, setOfficialDiscord, channels
           </div>
         )
       })}
-      
+      {sharedData.channels && (
+        <div
+        onClick={toggleDropdown}
+        className="flex border border-[#3c3f45] rounded-lg text-lg mt-4 w-full text-gray-200 items-center justify-between font-semibold px-2 py-1 cursor-pointer"
+      >
+        <span>{groupName}</span>
+        <FaChevronDown className="text-lg" />
+      </div>
+      )}
 {sharedData.channels && (
   channels?.map((channel) => {
     return (
       <div key={channel.id} className="relative w-full">
-        {/* Toggle Dropdown Button */}
-        <div
-          onClick={toggleDropdown}
-          className="flex border border-[#3c3f45] rounded-lg text-lg mt-4 w-full text-gray-200 items-center justify-between font-semibold px-2 py-1 cursor-pointer"
-        >
-          <span>{groupName}</span>
-          <FaChevronDown className="text-lg" />
-        </div>
-
-        {/* Dropdown Below Button */}
+        
         {isDropdownOpen && (
           <div className="absolute  left-0 mt-2 z-10 w-full sm:w-64">
             <ServerDropdownMenu
               openModal={() => setIsModalOpen(true)}
               closeMenu={() => setIsDropdownOpen(false)}
-            />
+            /> 
             <CreateChannelModal
+            groupId={groupId}
               isOpen={isModalOpen}
               closeModal={() => setIsModalOpen(false)}
             />

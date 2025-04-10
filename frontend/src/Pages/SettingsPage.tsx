@@ -152,9 +152,9 @@ const logout = async () => {
            
             <button
             onClick={logout}
-            className="mt-2 h-8 hover:bg-red-400 sm:mt-0 space-x-8 bg-red-500 text-white font-bold px-4 flex py-1 rounded text-sm">
+            className="mt-2 h-8  hover:bg-red-400 sm:mt-0 space-x-8 bg-red-500 text-white font-bold px-4 flex py-1 rounded text-sm">
 
-             <span><FiLogOut className="mt-1"/></span> Logout
+Logout<span><FiLogOut className="mt-1 ml-3"/></span> 
             </button>
           </div>
         </div>

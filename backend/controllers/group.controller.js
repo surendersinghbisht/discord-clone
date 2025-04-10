@@ -84,19 +84,20 @@ export const getAllChannelsForGroup = async (req, res)=> {
 export const addChannel = async (req, res)=> {
     try {
         const adminId = req.user;
-        const {name, groupId} = req.body;
-
-        if(!name) {
+        const {channelName, groupId} = req.body;
+        console.log(channelName, groupId)
+        if(!channelName) {
             return res.status(400).json({message: "name is required to create a channel"});
         }
         
 const channel = await new Channel({
-    name,
+    name: channelName,
     belongToGroup: groupId,
     members: [adminId]
 });
 
 await channel.save();
+await Group.findByIdAndUpdate(groupId, {$addToSet: {channels: channel._id}});
 
 await User.findByIdAndUpdate(adminId, {$addToSet:  {inChannels: channel._id}});
 
