@@ -99,7 +99,7 @@ const LandingPage: FC<LandingPageProps> = () => {
   };
 
   return (
-    <div className="flex bg-custombg h-screen">
+    <div className="flex bg-custombg h-screen overflow-auto">
       
       <SideBar
         getChannels={getChannelsForGroup}

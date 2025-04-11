@@ -11,8 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import toast from "react-hot-toast";
 
 
-
-
 const SidebarIcon = ({ icon, text = "tooltip" }) => (
   <div className="sidebar-icon group">
     {icon}

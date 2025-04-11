@@ -61,10 +61,8 @@ const logout = async () => {
     await axiosInstance.post("/auth/logout");
     toast.success("Logged out successfully");
 
-    // Optionally invalidate auth-related queries
     query.removeQueries({ queryKey: ["authUser"] });
 
-    // Redirect user to login or home
     window.location.href = "/login";
   } catch (err) {
     console.error(err);
@@ -74,7 +72,7 @@ const logout = async () => {
 
 
   return (
-    <div className="h-screen overflow-y-scroll bg-custombg w-full text-white flex justify-center items-center p-4 sm:p-6">
+    <div className="h-screen overflow-y-auto font-discord font-bold bg-custombg w-full text-white flex justify-center items-center p-4 sm:p-6">
       <div className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
         <h2 className="text-2xl font-semibold text-center sm:text-left">
           My Account
@@ -83,7 +81,7 @@ const logout = async () => {
         <div className="flex border-b border-gray-700 mt-4"></div>
 
        
-        <div className="relative bg-teal-400 rounded-lg mt-6 h-24"></div>
+        <div className="relative bg-custombg rounded-lg mt-6 h-24"></div>
 
       
         <div className="sm:justify-between relative flex flex-col sm:flex-row items-center sm:items-start -mt-10 px-4 sm:px-6">

@@ -14,7 +14,7 @@ export default function ServerDropdownMenu({ openModal }: { openModal: () => voi
   return (
     <div
    
-      className="absolute w-64 bg-[#2b2d31] text-white rounded-xl p-2 shadow-xl space-y-1 text-sm font-medium z-50"
+      className="absolute w-52 bg-[#2b2d31] text-white rounded-xl p-2 shadow-xl space-y-1 text-sm font-medium z-50"
     >
     
 
