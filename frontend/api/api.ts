@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 
 
 
-const SOCKET_URL = "http://localhost:5000"; 
+const SOCKET_URL = "https://discord-clone-api-nu.vercel.app/api"; 
 
 export const socket = io(SOCKET_URL, {
   withCredentials: true,
