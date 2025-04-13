@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
-import group from "./group.model";
 
-const messageSchema = mongoose.Schema({
+const groupMessageSchema = new mongoose.Schema(
+  {
     sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
     },
-    text: {
-        type: String,
-        required: true
+    message: {
+      type: String,
+      required: true
     },
-    groupId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Group"
-    }
-},{timestamps: true});
+    channelId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Channel",
+      required: true
+  },
+  },
+  { timestamps: true }
+);
 
-const message = mongoose.Schema("message", messageSchema);
-export default message;
+const GroupMessage = mongoose.model("GroupMessage", groupMessageSchema);
+export default GroupMessage;

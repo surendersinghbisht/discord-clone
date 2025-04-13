@@ -13,6 +13,7 @@ import friendsRoute from "./Routes/friends.route.js";
 import messageRoute from "./Routes/message.Route.js"; 
 
 import {messageController} from "./controllers/message.controller.js"
+import { groupMessage } from "./controllers/groupMessage.controller.js";
 
 dotenv.config();
 
@@ -47,6 +48,8 @@ const connectDB = async () => {
 
 
 messageController(io); 
+groupMessage(io);
+
 
 
 app.use("/api/auth", authRoute);

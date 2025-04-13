@@ -30,18 +30,18 @@ const formattedDateTime = new Date().toLocaleString("en-US", {
 
 
   return (
-    <div className="bg-[#313338] min-h-screen text-white px-4 md:px-6 py-10 font-sans">
+    <div className="bg-[#313338] min-h-screen overflow-y-auto text-white px-4 md:px-6 py-6 font-discord font-bold">
       {/* Header */}
 
       {/* Hero Section */}
-      <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div className=" flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="bg-[#5865F2] rounded-full p-3 self-center sm:self-auto">
           <FaDiscord className="text-white text-4xl" />
         </div>
         <div>
           <h2 className="text-2xl font-bold">Discord</h2>
           <p className="text-sm text-gray-300 mt-1">
-            This is an official message from Team Discord-Clone By Surender. Please be advised that Discord will never ask you for your password or account token.
+            This is an official message from Team Discord-Clone By Surender.
           </p>
         </div>
       </div>
@@ -69,13 +69,25 @@ const formattedDateTime = new Date().toLocaleString("en-US", {
             <span className="text-xs text-gray-400">{formattedDateTime}</span>
           </div>
 
-          <p className="text-sm text-gray-200 mt-2">
-            Hello, Discord has updated all of its accounts to use unique usernames instead of using discriminators in their username (username#0000). We have updated your username to a unique username. Your new username is <span className="font-semibold">{authUser?.username}</span>. You can always change your username later in <a className="text-[#00A8FC] hover:underline" href="#">User Settings</a>.
-          </p>
+          <h3 className="text-white mt-4 font-bold text-base">
+        👋 Welcome aboard, <span className="text-[#00A8FC]">{authUser?.username || "Legend"}</span>!
+      </h3>
 
-          <p className="text-sm text-gray-200 mt-4">
-            Learn more about our recent changes to usernames in our <a className="text-[#00A8FC] hover:underline" href="#">support article</a>
-          </p>
+      <p className="text-gray-300 text-sm mt-3 leading-relaxed">
+        You’re in the zone now — create groups, launch channels, and build your own space to vibe, talk, and share.
+      </p>
+
+      <p className="text-gray-300 text-sm mt-3 leading-relaxed">
+        Add friends, start chats anytime, or invite them to your private party channel 🎉 — it’s all yours to control.
+      </p>
+
+      <p className="text-gray-300 text-sm mt-3 leading-relaxed">
+        Wanna tweak your look? Jump into <span className="text-white font-semibold">User Settings</span> and make your profile uniquely you. 💫
+      </p>
+
+      <p className="text-sm text-gray-400 mt-4 italic">
+        Let’s make this place yours. Welcome home.
+      </p>
 
           <p className="text-sm mt-4">Thank you, Surender.</p>
         </div>

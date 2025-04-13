@@ -12,8 +12,6 @@ export const messageController = (io) => {
 
     
     socket.on("sendMessage", async (data) => {
-      // console.log("New message received:", data);
-
       try {
 
         const message = new Message({
@@ -21,7 +19,7 @@ export const messageController = (io) => {
           sender: data.sender,
           reciever: data.reciever, 
         });
-console.log('dave',message)
+
       const savedMessage = await message.save();
         const populatedMessage = await Message.findById(savedMessage._id)
         .populate('reciever', 'name username image')

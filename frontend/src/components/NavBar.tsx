@@ -33,6 +33,8 @@ interface NavbarProps {
   channels: any[];
   setShownavbar: React.Dispatch<React.SetStateAction<boolean>>;
   setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>;
+  channelChatview: React.Dispatch<React.SetStateAction<boolean>>;
+  setChannelDetails:any;
   groupName: string;
   groupId: string;
 }
@@ -48,6 +50,8 @@ const Navbar: React.FC<NavbarProps> = ({
   setFriendsSecton,
   showNavbar,
   setShownavbar,
+  channelChatview,
+  setChannelDetails
 }) => {
   const sendReciever = (reciever: IUser) => {
     getRecieverFromNav(reciever);
@@ -59,7 +63,10 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
- 
+ const setChannelData = (channel:any)=> {
+  channelChatview(true);
+  setChannelDetails(channel);
+ }
   useEffect(() => {
    
     setIsDropdownOpen(false);
@@ -74,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
       )}
 
-      {/* List of Friends */}
+    
       {sharedData.friends && (
         <div className='mt-4'>
           <button onClick={() => setOfficialDiscord(true)}>
@@ -108,7 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
       {sharedData.channels &&
         channels?.map((channel) => (
-          <div key={channel.id} className="relative w-full">
+          <div onClick={()=> setChannelData(channel)} key={channel.id} className="relative w-full">
             <div className="mt-5 flex space-x-4 m-2 cursor-pointer hover:bg-custombg">
               <h1 className="text-gray-200 font-discord font-semibold tracking-wider">{channel.name}</h1>
             </div>

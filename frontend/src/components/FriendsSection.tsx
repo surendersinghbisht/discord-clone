@@ -67,7 +67,7 @@ const findUser = async (): Promise<void> => {
         placeholder="Enter Username"
         value={username} 
         onChange={(e)=>setUsername(e.target.value)}
-          className="bg-[#2B2D31]  border-none outline-none w-2/3 placeholder:text-white font-bold border-gray-700 text-white font-discord"
+          className="bg-[#2B2D31]  border-none outline-none w-auto sm:w-80 placeholder:text-white font-bold border-gray-700 text-white font-discord"
         />
         <Button onClick={findUser}>Search</Button>
         </div>

@@ -10,12 +10,14 @@ import SettingsPage from "./SettingsPage";
 import OfficialDiscordMessage from "@/components/DiscordMessage";
 import DiscordOfficialMessage from "@/components/DiscordOffilcal";
 import HeroSection from "./HeroPage";
+import ChannelChat from "@/components/ChannelChat";
+import { data } from "react-router-dom";
 
 type LandingPageProps = {};
 
 const LandingPage: FC<LandingPageProps> = () => {
   const [sharedData, setSharedData] = useState({
-    friends: false,
+    friends: true,
     channels: false
   });
 
@@ -23,10 +25,13 @@ const LandingPage: FC<LandingPageProps> = () => {
   const [chatApp, setChatapp] = useState(false);
   const [FriendsSection, setFriendsSecton] = useState(false);
   const [settingsPage, setSettingsPage] = useState(false);
-  const [officialDiscord, setOfficialDiscord] = useState(false);
+  const [officialDiscord, setOfficialDiscord] = useState(true);
   const [groupId, setGroupId] = useState<string>("");
   const [groupName, setGroupName] = useState<string>("");
   const [showNavbar, setShownavbar] = useState(false);
+  const [channnelChat, setChannnelChat] = useState(false);
+  // const [channelName, setChannelname] = useState<string>("");
+  const [channelDetails, setChannelDetails] = useState<any[]>([]);
 
   
   const { data: friends } = useQuery<IUser[]>({
@@ -64,6 +69,7 @@ const LandingPage: FC<LandingPageProps> = () => {
     setFriendsSecton(false);
     setSettingsPage(false);
     setOfficialDiscord(false);
+    setChannnelChat(false);
   };
 
   const setFriendsSectionData = (data: boolean) => {
@@ -72,6 +78,7 @@ const LandingPage: FC<LandingPageProps> = () => {
     setSettingsPage(false);
     setShownavbar(false);
     setOfficialDiscord(false);
+    setChannnelChat(false);
   };
 
 
@@ -81,6 +88,7 @@ const LandingPage: FC<LandingPageProps> = () => {
     setFriendsSecton(false);
     setShownavbar(false);
     setOfficialDiscord(false);
+    setChannnelChat(false);
   };
 
   
@@ -90,8 +98,17 @@ const LandingPage: FC<LandingPageProps> = () => {
     setFriendsSecton(false);
     setSettingsPage(false);
     setShownavbar(false);
+    setChannnelChat(false);
   };
 
+  const handelChannelchatview =(data: boolean)=> {
+setChannnelChat(data);
+setChatapp(false);
+setFriendsSecton(false);
+setOfficialDiscord(false);
+setSettingsPage(false);
+setShownavbar(false);
+  }
  
   const getChannelsForGroup = async (id: string, groupName: string) => {
     setGroupId(id);
@@ -119,8 +136,10 @@ const LandingPage: FC<LandingPageProps> = () => {
         showNavbar={showNavbar}
         setFriendsSecton={setFriendsSectionData}
         getRecieverFromNav={getReciever}
+        channelChatview = {handelChannelchatview}
         sharedData={sharedData}
         friends={friends || []} 
+        setChannelDetails = {(channelDetails)=> setChannelDetails(channelDetails)}
       />
 
     
@@ -128,6 +147,7 @@ const LandingPage: FC<LandingPageProps> = () => {
       {officialDiscord && <DiscordOfficialMessage />}
       {FriendsSection && <FriendSection friends={friends || []} />}
       {settingsPage && <SettingsPage />}
+      {channnelChat && <ChannelChat channelDetails={channelDetails}/>}
     </div>
   );
 };
