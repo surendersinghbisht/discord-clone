@@ -2,7 +2,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 export const axiosInstance = axios.create({
-    baseURL: "discord-clone-api-nu.vercel.app/api", withCredentials: true
+    baseURL: "https://discord-clone-api-nu.vercel.app/api", withCredentials: true
 })
 
 
