@@ -21,12 +21,12 @@ const app = express();
 const server = http.createServer(app); 
 const io = new Server(server, {
   cors: {
-    origin: "discord-clone-tdbc.vercel.app", 
+    origin: "https://discord-clone-tdbc.vercel.app", 
     credentials: true,
   },
 });
 
-app.use(cors({ origin: "http://discord-clone-tdbc.vercel.app", credentials: true }));
+app.use(cors({ origin: "https://discord-clone-tdbc.vercel.app", credentials: true }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
