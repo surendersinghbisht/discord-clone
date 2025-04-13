@@ -38,6 +38,7 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
         const res = await axiosInstance.get<Message[]>(
           `message/get-messages/${authUser._id}/${reciever._id}`
         );
+        console.log('asdad',res.data);
         setMessages(res.data);
       };
 
@@ -144,8 +145,6 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
     hour12: true,
   })}
 </span>
-
-
       </span>
     </div>
 
