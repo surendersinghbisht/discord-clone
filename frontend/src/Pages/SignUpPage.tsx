@@ -3,7 +3,7 @@ import Signup from "../components/signup";
 
 type SignUpPageProps = {};
 
-const SignUpPage: FC<SignUpPageProps> = (props) => {
+const SignUpPage: FC<SignUpPageProps> = () => {
   return <div>
     <Signup />
   </div>;

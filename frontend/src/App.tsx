@@ -15,9 +15,8 @@ function App() {
     queryFn: async () => {
       try {
         const res = await axiosInstance.get("/auth/me");
-        console.log("Fetched user data:", res.data); 
         return res.data;
-      } catch (error) {
+      } catch (error: any ) {
         console.error("Error fetching /me:", error.response?.data);
         if (error.response?.status === 401) {
           return null; 
