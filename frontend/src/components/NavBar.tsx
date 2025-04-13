@@ -1,5 +1,3 @@
-import { MdKeyboardArrowRight } from 'react-icons/md';
-import { BsPlus } from 'react-icons/bs';
 import { IUser } from '@/models/User';
 import Userbatch from './Userbatch';
 import { FaUserFriends } from "react-icons/fa";
@@ -9,17 +7,17 @@ import { FaChevronDown } from 'react-icons/fa';
 import ServerDropdownMenu from './Serverdropdown';
 import CreateChannelModal from './CreateChannel';
 
-const NavbarListItem = ({ icon, text }) => (
-  <div className='w-full flex justify-between items-center my-1 group'>
-    <div className='flex justify-between items-center'>
-      <div className='transition-all duration-200 ease-in-out group-hover:rotate-90'>
-        {icon}
-      </div>
-      <p className='font-medium text-gray-400'>{text}</p>
-    </div>
-    <BsPlus className='text-green-500 group-hover:rotate-90 transition-all duration-200 ease-in-out' size="20" />
-  </div>
-);
+// const NavbarListItem = ({ icon, text }) => (
+//   <div className='w-full flex justify-between items-center my-1 group'>
+//     <div className='flex justify-between items-center'>
+//       <div className='transition-all duration-200 ease-in-out group-hover:rotate-90'>
+//         {icon}
+//       </div>
+//       <p className='font-medium text-gray-400'>{text}</p>
+//     </div>
+//     <BsPlus className='text-green-500 group-hover:rotate-90 transition-all duration-200 ease-in-out' size="20" />
+//   </div>
+// );
 
 interface NavbarProps {
   sharedData: {
@@ -32,8 +30,8 @@ interface NavbarProps {
   showNavbar: boolean;
   channels: any[];
   setShownavbar: React.Dispatch<React.SetStateAction<boolean>>;
-  setOfficialDiscord: React.Dispatch<React.SetStateAction<boolean>>;
-  channelChatview: React.Dispatch<React.SetStateAction<boolean>>;
+  setOfficialDiscord: any;
+  channelChatview: any;
   setChannelDetails:any;
   groupName: string;
   groupId: string;

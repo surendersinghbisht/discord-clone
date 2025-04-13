@@ -1,10 +1,4 @@
-import { FaHashtag, FaVolumeUp, FaLock } from "react-icons/fa";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../../api/api";
-import toast from "react-hot-toast";
-
-export default function CreateChannelModal({ isOpen, closeModal, channelDetails }) {
+export default function CreateChannelModal({ isOpen, closeModal, channelDetails }: { isOpen: boolean, closeModal: () => void,channelDetails:any }) {
 //   const [channelName, setChannelName] = useState("");
 console.log('asdasd',channelDetails)
   if (!isOpen) return null;
@@ -21,7 +15,7 @@ console.log('asdasd',channelDetails)
         <h1 className="text-xl">Members</h1>
         <div className="flex justify-between items-center">
         
-         {channelDetails.members.map((member) => (
+         {channelDetails.members.map((member: any) => (
             <div>
                 <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-400">Online - 1</span>

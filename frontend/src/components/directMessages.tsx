@@ -4,7 +4,7 @@ import { FC, memo } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 type DirectMessages = {};
-const DirectMessages: FC<DirectMessages> = (props) => {
+const DirectMessages: FC<DirectMessages> = () => {
 
     const { data: friends } = useQuery<IUser[]>({
       queryKey: ["authFriends"],
@@ -29,6 +29,5 @@ const DirectMessages: FC<DirectMessages> = (props) => {
   </div>;
 };
 
-DirectMessages.defaultProps = {};
 
 export default memo(DirectMessages);

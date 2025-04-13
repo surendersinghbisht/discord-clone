@@ -1,4 +1,4 @@
-import { FC, memo, useState, useEffect } from "react";
+import { FC, memo, useState } from "react";
 import SideBar from "../components/SideBar";
 import ChatApp from "@/components/Chatapp";
 import Navbar from "@/components/NavBar";
@@ -7,11 +7,9 @@ import { IUser } from '@/models/User';
 import { axiosInstance } from '../../api/api';
 import FriendSection from "@/components/FriendsSection";
 import SettingsPage from "./SettingsPage";
-import OfficialDiscordMessage from "@/components/DiscordMessage";
 import DiscordOfficialMessage from "@/components/DiscordOffilcal";
-import HeroSection from "./HeroPage";
 import ChannelChat from "@/components/ChannelChat";
-import { data } from "react-router-dom";
+
 
 type LandingPageProps = {};
 
@@ -121,8 +119,7 @@ setShownavbar(false);
       <SideBar
         getChannels={getChannelsForGroup}
         setShownavbar={setShownavbar}
-        setSettingsPage={setSettingsPageView}
-        sharedData={sharedData}
+        setSettingsPage={(data: boolean)=> setSettingsPageView(data)}
         setSharedData={setSharedData}
       />
 
@@ -139,7 +136,7 @@ setShownavbar(false);
         channelChatview = {handelChannelchatview}
         sharedData={sharedData}
         friends={friends || []} 
-        setChannelDetails = {(channelDetails)=> setChannelDetails(channelDetails)}
+        setChannelDetails = {setChannelDetails}
       />
 
     

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 type signupProps = {};
 
-const Signup: FC<signupProps> = (props) => {
+const Signup: FC<signupProps> = () => {
 
 const queryClient = useQueryClient();
 
@@ -48,7 +48,7 @@ signUpMutation(formData);
   return (
     <div
     className="min-h-screen flex items-center px-4 justify-center bg-cover bg-center"
-    style={{ backgroundImage: "url('/login.png')" }} // Replace with your image path
+    style={{ backgroundImage: "url('/login.png')" }} 
   >
     <div className="bg-[#2c2f33] text-white w-full max-w-md rounded-lg shadow-lg p-8">
       <h2 className="text-2xl font-semibold text-center mb-6">
@@ -127,6 +127,5 @@ signUpMutation(formData);
   )
 };
 
-Signup.defaultProps = {};
 
 export default memo(Signup);

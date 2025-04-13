@@ -3,13 +3,12 @@ import { Outlet } from "react-router-dom";
 
 type LayoutProps = {};
 
-const Layout: FC<LayoutProps> = (props) => {
+const Layout: FC<LayoutProps> = () => {
   return <>
   Layout
   <Outlet />
   </>;
 };
 
-Layout.defaultProps = {};
 
 export default memo(Layout);

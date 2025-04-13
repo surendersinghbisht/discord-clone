@@ -9,7 +9,7 @@ import Userbatch from "./Userbatch";
 import { IoIosPersonAdd } from "react-icons/io";
 
 type FriendsSectionProps = {
-  friends: IUser[] | undefined;
+  friends: IUser[];
 };
 
 const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
@@ -107,6 +107,5 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
   );
 };
 
-FriendsSection.defaultProps = {};
 
 export default memo(FriendsSection);

@@ -1,22 +1,21 @@
-import { FaHashtag, FaVolumeUp, FaLock } from "react-icons/fa";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../api/api";
 import toast from "react-hot-toast";
 
-export default function CreateChannelModal({ isOpen, closeModal,groupId }) {
+export default function CreateChannelModal({ isOpen, closeModal,groupId }: { isOpen: boolean, closeModal: () => void,groupId:string }) {
   const [channelName, setChannelName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const query = useQueryClient();
 
 
   const { mutate: createChannel } = useMutation({
-    mutationFn: async (data) => {
+    mutationFn: async (channelName: string) => {
       setIsLoading(true);
       try {
         const name = "#"+channelName.replace(/\s+/g, '-').toLowerCase();
         await axiosInstance.post("/group/add-channel", { channelName: name, groupId });
-      } catch (error) {
+      } catch (error: any) {
         throw new Error(error?.response?.data?.message || "Failed to create channel");
       } finally {
         setIsLoading(false);
@@ -32,7 +31,7 @@ export default function CreateChannelModal({ isOpen, closeModal,groupId }) {
     },
   });
 
-  // Return null if the modal is not open
+
   if (!isOpen) return null;
 
   const addChannel = () => {
@@ -40,7 +39,7 @@ export default function CreateChannelModal({ isOpen, closeModal,groupId }) {
       toast.error("Channel name is required");
       return;
     }
-    createChannel({ channelName });
+    createChannel(channelName);
   };
 
   return (

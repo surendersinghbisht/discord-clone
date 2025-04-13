@@ -3,12 +3,11 @@ import Login from "../components/Login";
 
 type LoginPageProps = {};
 
-const LoginPage: FC<LoginPageProps> = (props) => {
+const LoginPage: FC<LoginPageProps> = () => {
   return <div>
     <Login />
   </div>;
 };
 
-LoginPage.defaultProps = {};
 
 export default memo(LoginPage);

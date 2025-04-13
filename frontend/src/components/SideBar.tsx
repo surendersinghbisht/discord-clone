@@ -1,9 +1,8 @@
-import React, { memo, useState } from "react";
-// import { FaFire } from "react-icons/fa";
+import React, { memo } from "react";
 import { FaDiscord } from "react-icons/fa6";
-import { BsFillLightningFill, BsPlus } from "react-icons/bs";
+import { BsFillLightningFill } from "react-icons/bs";
 import { RiSettings3Fill } from "react-icons/ri";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../api/api";
 import { Dialog } from "./ui/dialog";
 import Addserver from "./Addserver";
@@ -11,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import toast from "react-hot-toast";
 
 
-const SidebarIcon = ({ icon, text = "tooltip" }) => (
+const SidebarIcon = ({ icon, text = "tooltip" }: any) => (
   <div className="sidebar-icon group">
     {icon}
     <span className="sidebar-tooltip group-hover:scale-100">
@@ -25,10 +24,9 @@ const SidebarLine = () => (
 );
 
 type ChildProps = {
-  // sharedData: { friends: boolean; channels: boolean };
-  setSharedData: React.Dispatch<React.SetStateAction<{ friends: boolean; channels: boolean }>>;
-  setSettingsPage: React.Dispatch<React.SetStateAction<boolean>>;
-  setShownavbar: React.Dispatch<React.SetStateAction<boolean>>;
+  setSharedData: any;
+  setSettingsPage: any;
+  setShownavbar: any;
   getChannels:any;
 };
 const SideBar:React.FC<ChildProps> = ({getChannels, setSharedData, setSettingsPage, setShownavbar}) => {
@@ -84,7 +82,7 @@ const showToast = ()=> {
         <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaDiscord size="28" />} text="Direct Message" /></button>   
       <SidebarLine />
 
-      {groups?.map((group)=> {
+      {groups?.map((group:any)=> {
         return (
           <div className=""> 
             <button onClick={()=>setChannelsData(group._id, group.name)}>

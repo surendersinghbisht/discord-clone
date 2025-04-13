@@ -20,7 +20,7 @@ type AddServerProps = {};
 
 const AddServer: FC<AddServerProps> = () => {
   type SidebarIconProps = {
-    icon: JSX.Element;
+    icon: any;
     text?: string;
   };
 
@@ -51,7 +51,7 @@ const AddServer: FC<AddServerProps> = () => {
 const query = useQueryClient()
 
   
-  const { mutate: addServerMutation, isLoading } = useMutation({
+  const { mutate: addServerMutation, isPending } = useMutation({
     mutationFn: async (data: { name: string; description: string }) => {
         console.log(data)
       const res = await axiosInstance.post("/group/create-group", data);
@@ -115,8 +115,8 @@ const query = useQueryClient()
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={addServer} disabled={isLoading}>
-              {isLoading ? "Adding..." : "Add"}
+            <Button type="submit" onClick={addServer} disabled={isPending}>
+              {isPending ? "Adding..." : "Add"}
             </Button>
           </DialogFooter>
         </DialogContent>

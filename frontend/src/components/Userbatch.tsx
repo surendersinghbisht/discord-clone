@@ -29,9 +29,4 @@ const Userbatch: FC<UserbatchProps> = ({ name, image, icon }) => {
   );
 };
 
-Userbatch.defaultProps = {
-  image: "",
-  icon: null,
-};
-
 export default memo(Userbatch);

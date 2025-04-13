@@ -72,7 +72,7 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
     };
   
    
-    socket.emit("sendMessage", newMessage, (response) => {
+    socket.emit("sendMessage", newMessage, (response: any) => {
       if (response?.status === "error") {
         console.error("Failed to send message");
       }
@@ -82,9 +82,6 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
   };
   
 
-  const SidebarLine = () => (
-    <div className="border-t-2 border-[#29292D] w-full"></div>
-  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error instanceof Error) return <div>Error: {error.message}</div>;

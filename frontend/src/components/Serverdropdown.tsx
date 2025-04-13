@@ -3,7 +3,6 @@ import {
   FaCog,
   FaPlus,
 } from "react-icons/fa";
-import { useEffect, useRef } from "react";
 
 export default function ServerDropdownMenu({ openModal }: { openModal: () => void, closeMenu: () => void }) {
   

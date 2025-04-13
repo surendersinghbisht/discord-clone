@@ -47,6 +47,5 @@ const UserHovercar: FC<UserHovercarProps> = ({user}) => {
 </div>
 };
 
-UserHovercar.defaultProps = {};
 
 export default memo(UserHovercar);

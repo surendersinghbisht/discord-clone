@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FiHash, FiBell, FiUsers, FiSearch, FiInbox } from 'react-icons/fi';
+import { FiHash, FiBell, FiUsers, FiSearch } from 'react-icons/fi';
 import ChatInput from './ChatInput';
 import { axiosInstance, socket } from "../../api/api";
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +9,7 @@ import FriendList from './FriendList';
 import { useState } from 'react';
 
 interface ChannelChatProps {
-  channelDetails: any; // Add correct type for channelDetails if possible
+  channelDetails: any; 
 }
 
 interface ChannelChatMessage {
@@ -90,7 +90,7 @@ const ChannelChat: React.FC<ChannelChatProps> = ({ channelDetails }) => {
 
     setChat((prevMessages) => [...prevMessages, newMessage]);
 
-    socket.emit('send_message', newMessage, (response) => {
+    socket.emit('send_message', newMessage, (response:any) => {
       if (response?.status === 'error') {
         console.error('Failed to send message');
       }

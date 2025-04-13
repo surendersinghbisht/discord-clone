@@ -1,4 +1,3 @@
-import React from 'react';
 
 const AddFriend = () => {
   return (
@@ -23,7 +22,7 @@ const AddFriend = () => {
           </div>
         </div>
 
-        {/* Right Section: Image (hidden on small screens) */}
+        
         <div className="mt-6 md:mt-0 md:ml-6 hidden md:block">
           <img
             src="/discord-bot.png"
