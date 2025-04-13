@@ -72,7 +72,6 @@ export const getAllChannelsForGroup = async (req, res)=> {
     const {groupId}  = req.params;
 
     const group = await Group.findById(groupId).populate("channels", "name members");
-    console.log(group.channels)
 
     res.status(200).json(group.channels);
     } catch (error) {
@@ -108,4 +107,18 @@ res.status(201).json({message: "group created sucessfully"});
         console.log(error, "error in group controller");
      res.status(500).json(error,"something went wrong"); 
     }
+}
+
+
+export const getChannelDetail =async(req, res)=> {
+try {
+    const userId = req.user;
+    const channelId = req.params.channelId;
+
+    const channel = await Channel.findById(channelId).populate("members", "name image");
+    res.status(200).json(channel);
+} catch (error) {
+    console.log(error, "error in group controller");
+    res.status(500).json(error,"something went wrong"); 
+}
 }

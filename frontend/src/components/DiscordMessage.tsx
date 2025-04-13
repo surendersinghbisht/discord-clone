@@ -3,7 +3,7 @@ import { BsCheckLg } from "react-icons/bs";
 
 const OfficialDiscordMessage = () => {
   return (
-    <div className="flex items-center space-x-2 bg-[#1e1f22] text-white p-4 rounded-md w-fit">
+    <div className="flex items-center space-x-2  text-white p-4 rounded-md w-fit">
       {/* Discord Icon */}
       <div className="bg-[#5865F2] rounded-full p-2">
         <FaDiscord className="text-white text-xl" />

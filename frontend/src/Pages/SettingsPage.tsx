@@ -73,7 +73,7 @@ const logout = async () => {
 
   return (
     <div className="h-screen overflow-y-auto font-discord font-bold bg-custombg w-full text-white flex justify-center items-center p-4 sm:p-6">
-      <div className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
+      <div className="w-full max-w-3xl bg-[#121214] rounded-lg shadow-lg p-4 sm:p-6">
         <h2 className="text-2xl font-semibold text-center sm:text-left">
           My Account
         </h2>
@@ -102,40 +102,40 @@ const logout = async () => {
           </div>
           </div>
           <div className="sm:mt-16">
-          <button onClick={editUserDaetails} className="mt-4 sm:mt-0 sm:ml-auto bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+          <button onClick={editUserDaetails} className="mt-4 text-sm sm:mt-0 sm:ml-auto bg-discordColor hover:bg-indigo-600 text-white px-4 py-1 rounded">
             Edit User Profile
           </button>
           </div>
         </div>
 
-        <div className="bg-gray-700 mt-6 p-4 sm:p-6 rounded-lg">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-600 pb-3">
+        <div className="bg-[#1A1A1E] mt-6 p-4 sm:p-6 rounded-lg">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-3">
             <div>
-              <p className="text-gray-400 text-sm">Display Name</p>
+              <p className="text-white text-md">Display Name</p>
               
               {editName ? <Input
               name="name"
                value={editedData.name} onChange={handleChange} />: <p className="truncate">{authUser?.name}</p>}
             </div>
-            <button className="mt-2 sm:mt-0 bg-gray-600 px-4 py-1 rounded text-sm" onClick={editName ? handleSave :()=> setEditName(true)}>
+            <button className="mt-2 sm:mt-0 bg-[#333338] px-4 py-1 rounded text-sm" onClick={editName ? handleSave :()=> setEditName(true)}>
               {editName ? "save" : "Edit"}
             </button>
           </div>
 
 
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-600 py-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center  py-3">
             <div>
               <p className="text-gray-400 text-sm">Username</p>
              {editUsername ? <Input
              name="username"
              value={editedData.username} onChange={handleChange} />:<p className="truncate">{authUser?.username}</p>}
             </div>
-            <button className="mt-2 sm:mt-0 bg-gray-600 px-4 py-1 rounded text-sm" onClick={editUsername? handleSave :()=> setEditUsername(true)}>
+            <button className="mt-2 sm:mt-0 bg-[#333338]  px-4 py-1 rounded text-sm" onClick={editUsername? handleSave :()=> setEditUsername(true)}>
             {editUsername ? "save" : "Edit"}
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-600 py-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center  py-3">
             <div>
               <p className="text-gray-400 text-sm">Email</p>
               <p className="flex items-center truncate">

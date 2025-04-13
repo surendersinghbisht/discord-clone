@@ -75,9 +75,9 @@ const Navbar: React.FC<NavbarProps> = ({
   return (
     <div className={`sm:block ${showNavbar ? "block" : "hidden"} w-80 px-3 py-3 h-screen sticky pt-10 flex flex-col bg-customcolor items-start overflow-y-auto flex-shrink-0`}>
       {sharedData.friends && (
-        <div onClick={() => setFriendsSecton(true)} className='flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
+        <div onClick={() => setFriendsSecton(true)} className=' text-2xl flex space-x-4 m-2 cursor-pointer hover:bg-custombg'>
           <FaUserFriends className='ml-2 mt-1 text-white' />
-          <h1 className='text-gray-200 font-discord font-semibold tracking-wider'>friends</h1>
+          <h1 className='text-gray-200 font-discord font-semibold  tracking-wider'>friends</h1>
         </div>
       )}
 

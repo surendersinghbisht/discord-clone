@@ -26,7 +26,8 @@ export const messageController = (io) => {
         .populate('sender', 'name username image')   
       
 
-        io.to(data.reciever._id).emit("receiveMessage", populatedMessage);
+io.to(data.reciever._id).emit("receiveMessage", populatedMessage);
+io.to(data.sender._id).emit("receiveMessage", populatedMessage);
 
       } catch (error) {
         console.error(" Error saving message:", error);

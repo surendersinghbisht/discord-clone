@@ -25,7 +25,7 @@ const ChatInput: FC<ChatInputProps> = ({ sendMessage, name }) => {
   };
 
   return (
-    <div className="bg-[#2a2a2a] p-3 flex items-center gap-2 sm:gap-3 rounded-lg  sm:mx-4 w-full ">
+    <div className="bg-[#222327] p-3 flex items-center gap-2 sm:gap-3 rounded-lg  sm:mx-4 w-full ">
       
       {/* Plus Button (Hidden on Mobile) */}
       <button className="p-2 rounded-full bg-gray-700 hover:bg-gray-600 hidden sm:block">

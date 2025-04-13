@@ -18,6 +18,7 @@ interface Message {
   sender: IUser;
   reciever: IUser;
   text: string;
+  createdAt: Date;
 }
 
 const Chatapp: FC<ChatappProps> = ({ reciever }) => {
@@ -43,6 +44,7 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
       fetchMessages();
 
       const handleMessageReceived = (data: Message) => {
+        console.log('rec',data.createdAt)
         setMessages((prevMessages) => [...prevMessages, data]);
       };
 
@@ -62,21 +64,23 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
 
   const sendMessage = (text: string) => {
     if (text.trim() === "") return;
-
-    const newMessage: Message = {
+  
+    const newMessage = {
       sender: authUser!,
       reciever: reciever!,
       text,
     };
-
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-
+  
+   
     socket.emit("sendMessage", newMessage, (response) => {
       if (response?.status === "error") {
         console.error("Failed to send message");
       }
     });
+  
+
   };
+  
 
   const SidebarLine = () => (
     <div className="border-t-2 border-[#29292D] w-full"></div>
@@ -103,13 +107,58 @@ const Chatapp: FC<ChatappProps> = ({ reciever }) => {
           <div className="text-white text-center">Start a conversation...</div>
         ) : (
           messages.map((msg, index) => (
-            <div key={index}>
-              <p className="text-white m-1">
+            <div key={index} className="flex m-1 font-discord">
+              {/* <span></span>
+              <p className="text-white">
                 {msg.sender._id === authUser?._id ? "You" : msg.sender.name}: {msg.text}
               </p>
-              <SidebarLine />
+              <span className="text-[10px] m-2 text-gray-400 font-discord">
+        {new Date(msg.createdAt).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
+      </span> */}
+      
+              
+             
+      {/* <div className="text-gray-400 text-xs border-b border-[#4e5058] w-full text-center pb-1">
+            </div> */}
               <br />
+              <div className="flex items-start gap-3 px-4 py-2 hover:bg-[#2b2d31] transition-colors duration-200">
+  
+  <img
+    src={msg.sender.image ? msg.sender.image : "/user.jpg"} 
+    alt="User Avatar"
+    className="w-10 h-10 rounded-full object-cover"
+  />
+
+
+  <div>
+    <div className="flex items-center gap-2">
+      <span className="font-semibold text-white text-sm"> {msg.sender._id === authUser?._id ? "You" : msg.sender.name}</span>
+      <span className="text-xs text-gray-400">
+      <span className="text-xs text-gray-400">
+  {new Date(msg.createdAt).toLocaleString('en-US', {
+    month: 'numeric',
+    day: 'numeric',
+    year: '2-digit',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })}
+</span>
+
+
+      </span>
+    </div>
+
+
+    <p className="text-sm text-white mt-0.5">{msg.text}</p>
+  </div>
+</div>
+
             </div>
+            
           ))
         )}
       </div>

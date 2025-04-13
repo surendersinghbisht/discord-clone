@@ -12,7 +12,6 @@ export const groupMessage =async(io)=> {
     
     
       socket.on('send_message', async(data) => {
-        console.log('send',data)
         try {
             const groupMessage = new GroupMessage({
                 sender: data.sender,
@@ -56,7 +55,10 @@ export const getGroupMessages = async (req, res) => {
         return res.status(403).json({ message: "You are not a member of this channel" });
       }
   
-      const messages = await GroupMessage.find({ channelId }).populate("sender", "name image");
+      const messages = await GroupMessage.find({ channelId })
+      .populate("sender", "name image")
+      .sort({ createdAt: -1 });
+    
       res.status(200).json(messages);
     } catch (error) {
       console.log(error, "error in group message controller");
