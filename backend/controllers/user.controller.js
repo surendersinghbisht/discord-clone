@@ -1,3 +1,4 @@
+import cloudinary from "../lib/Cloudinary.js";
 import User from "../models/user.model.js";
 
 export const getUserProfile =async(req, res)=> {
@@ -19,15 +20,21 @@ export const getUserProfile =async(req, res)=> {
 export const editProfile = async(req, res)=> {
     try {
         const userId = req.user._id;
-        const {name, username} = req.body;
-        console.log('name',name, "username",username, userId)
+        const {name, username, image} = req.body;
+        console.log('img',image)
+let updatedImage = ""
+        if(image){
+            const result = await cloudinary.uploader.upload(image)
+            updatedImage = result.secure_url;
+        }
+        
         
           const editedData = await User.findByIdAndUpdate(
             userId,
-            { name, username },
+            { name, username, image: updatedImage },
             { new: true}
           );
-          console.log('sadsd',editedData)
+          
 
           res.status(200).json(editedData);
 

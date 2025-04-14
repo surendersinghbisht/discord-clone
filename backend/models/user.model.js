@@ -19,7 +19,8 @@ const userScehma = new mongoose.Schema({
         required: true
     },
     image: {
-        type: String
+        type: String,
+        dafault: ""
     },
     bio:{
         type: String

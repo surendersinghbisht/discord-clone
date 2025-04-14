@@ -42,7 +42,6 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[url('/login.png')] bg-cover bg-center flex items-center justify-center px-4">
       <form onSubmit={submitForm} className="w-full max-w-4xl bg-[#2C2F33]/95 text-white rounded-lg shadow-lg flex flex-col md:flex-row overflow-hidden">
-        {/* Left - Login Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-2xl font-bold mb-1">Welcome back!</h2>
           <p className="text-sm text-gray-300 mb-6">We're so excited to see you again!</p>
@@ -107,9 +106,9 @@ const Login = () => {
         <div className="hidden sm:flex w-full md:w-1/2 border-t md:border-t-0 md:border-l border-[#202225] p-8 items-center justify-center">
   <div className="flex flex-col items-center text-center">
     <img
-      src="/discord-logo.png"
+      src="/discord-logo.webp"
       alt="QR Code"
-      className="w-40 h-40 mb-4"
+      className="w-40 h-40 rounded-full mb-4"
     />
     <h3 className="text-lg font-semibold">Log in.</h3>
     <p className="text-sm text-gray-300 mt-2">
