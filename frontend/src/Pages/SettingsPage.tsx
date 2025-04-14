@@ -83,6 +83,7 @@ const SettingsPage = () => {
     formData.append("username", editedData.username);
   
     // Call mutation with the form data
+    console.log('formdatas',formData)
     editMutation(formData); 
     setIsEditing(false);
   };

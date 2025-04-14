@@ -6,7 +6,8 @@ import OfficialDiscordMessage from './DiscordMessage';
 import { FaChevronDown } from 'react-icons/fa';
 import ServerDropdownMenu from './Serverdropdown';
 import CreateChannelModal from './CreateChannel';
-
+import {  FaUserPlus, FaCog } from "react-icons/fa";
+import { useRef } from 'react';
 // const NavbarListItem = ({ icon, text }) => (
 //   <div className='w-full flex justify-between items-center my-1 group'>
 //     <div className='flex justify-between items-center'>
@@ -61,6 +62,25 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
  const setChannelData = (channel:any)=> {
   channelChatview(true);
   setChannelDetails(channel);
@@ -105,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({
       )}
 
       {sharedData.channels && isDropdownOpen && (
-        <div className="absolute mt-14 sm:mt-0 z-10 w-full sm:w-64">
+        <div  ref={dropdownRef} className="absolute mt-14 sm:mt-0 z-10 w-full sm:w-64">
           <ServerDropdownMenu openModal={() => setIsModalOpen(true)} closeMenu={() => setIsDropdownOpen(false)} />
           <CreateChannelModal groupId={groupId} isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
         </div>
@@ -113,9 +133,20 @@ const Navbar: React.FC<NavbarProps> = ({
 
       {sharedData.channels &&
         channels?.map((channel) => (
-          <div onClick={()=> setChannelData(channel)} key={channel.id} className="relative w-full">
-            <div className="mt-5 flex space-x-4 m-2 cursor-pointer hover:bg-custombg">
-              <h1 className="text-gray-200 font-discord font-semibold tracking-wider">{channel.name}</h1>
+          <div   key={channel.id} className="relative w-full">
+            <div className=" flex space-x-4 m-2 cursor-pointer hover:bg-custombg">
+            <div  className="flex items-center justify-between text-lg text-gray-300 px-4 py-2 rounded-md w-full">
+      
+      <div onClick={()=> setChannelData(channel)} className="flex flex-1 items-center space-x-2 text-base font-medium">
+       <span className='text-lg'>{channel.name}</span> 
+      </div>
+
+    
+      <div className="flex items-center space-x-4">
+        <FaUserPlus className="hover:text-white z-40 cursor-pointer" />
+        <FaCog className="hover:text-white z-40 cursor-pointer" />
+      </div>
+    </div>
             </div>
           </div>
         ))}
