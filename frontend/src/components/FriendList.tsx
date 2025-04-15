@@ -17,7 +17,7 @@ console.log('asdasd',channelDetails)
         
          {channelDetails.members.map((member: any) => (
             <div>
-                <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-400">Online - 1</span>
       </div>
       <div className=" mt-4 flex items-center space-x-2">

@@ -8,6 +8,7 @@ import ServerDropdownMenu from './Serverdropdown';
 import CreateChannelModal from './CreateChannel';
 import {  FaUserPlus, FaCog } from "react-icons/fa";
 import { useRef } from 'react';
+import ChannelSettingsModal from './ChannelSettingsModal';
 // const NavbarListItem = ({ icon, text }) => (
 //   <div className='w-full flex justify-between items-center my-1 group'>
 //     <div className='flex justify-between items-center'>
@@ -59,6 +60,8 @@ const Navbar: React.FC<NavbarProps> = ({
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const[showModal, setShowModal] = useState(false);
+  const[channelDataForModal, setChannelDataForModal] = useState<any>({});
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -80,6 +83,11 @@ useEffect(() => {
   };
 }, []);
 
+const handelChannelModel =(channel:any)=> {
+  setShowModal(true);
+  setChannelDataForModal(channel)
+
+}
 
  const setChannelData = (channel:any)=> {
   channelChatview(true);
@@ -133,7 +141,7 @@ useEffect(() => {
 
       {sharedData.channels &&
         channels?.map((channel) => (
-          <div   key={channel.id} className="relative w-full">
+          <div key={channel.id} className="relative w-full">
             <div className=" flex space-x-4 m-2 cursor-pointer hover:bg-custombg">
             <div  className="flex items-center justify-between text-lg text-gray-300 px-4 py-2 rounded-md w-full">
       
@@ -144,12 +152,15 @@ useEffect(() => {
     
       <div className="flex items-center space-x-4">
         <FaUserPlus className="hover:text-white z-40 cursor-pointer" />
-        <FaCog className="hover:text-white z-40 cursor-pointer" />
+        <FaCog onClick={()=>handelChannelModel(channel)} className="hover:text-white z-40 cursor-pointer" />
+        
       </div>
     </div>
             </div>
           </div>
         ))}
+        <ChannelSettingsModal channel={channelDataForModal} isOpen={showModal} onClose={() => setShowModal(false)} />
+
     </div>
   );
 };

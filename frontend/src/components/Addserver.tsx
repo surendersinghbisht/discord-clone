@@ -84,7 +84,7 @@ const query = useQueryClient()
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add Server</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-gray-200">
               Enter details and add a new server... Yep, it's that easy!
             </DialogDescription>
           </DialogHeader>
@@ -97,7 +97,7 @@ const query = useQueryClient()
                 id="name"
                 name="name"
                 placeholder="Your server name"
-                className="col-span-3"
+                className="col-span-3  border border-gray-600 bg-[#2B2D31] rounded-lg"
                 onChange={handleChange}
               />
             </div>
@@ -109,13 +109,13 @@ const query = useQueryClient()
                 id="description"
                 name="description"
                 placeholder="Server description"
-                className="col-span-3"
+                className="col-span-3 bottom-0  border border-gray-600 bg-[#2B2D31] rounded-lg"
                 onChange={handleChange}
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={addServer} disabled={isPending}>
+            <Button type="submit" className="bg-discordColor" onClick={addServer} disabled={isPending}>
               {isPending ? "Adding..." : "Add"}
             </Button>
           </DialogFooter>

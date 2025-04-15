@@ -122,3 +122,35 @@ try {
     res.status(500).json(error,"something went wrong"); 
 }
 }
+
+
+export const editChannel = async(req, res)=> {
+    try {
+       const channelId = req.params.channelId;
+       const {channelName} = req.body;
+       console.log("channelName",channelName, channelId)
+if(channelName === "") {
+    res.status(400).json({message: "channelName cannot be empty"});
+}
+       const channel = await Channel.findByIdAndUpdate(channelId, {name: channelName}, {new: true});
+        
+       res.status(200).json(channel);
+
+    } catch (error) {
+        console.log(error, "error in group controller");
+        res.status(500).json(error,"something went wrong"); 
+    }
+}
+
+export const deleteChannel  = async(req, res)=> {
+    try {
+        const channelId = req.params.channelId;
+
+     await Channel.findByIdAndDelete(channelId, {new: true});
+     res.status(200).json({message: "channel deleted successfully"});
+  
+    } catch (error) {
+        console.log(error, "error in group controller");
+        res.status(500).json(error,"something went wrong"); 
+    }
+}
