@@ -9,6 +9,7 @@ import CreateChannelModal from './CreateChannel';
 import {  FaUserPlus, FaCog } from "react-icons/fa";
 import { useRef } from 'react';
 import ChannelSettingsModal from './ChannelSettingsModal';
+import InvitePeopleModel from './InvitePeopleModel';
 // const NavbarListItem = ({ icon, text }) => (
 //   <div className='w-full flex justify-between items-center my-1 group'>
 //     <div className='flex justify-between items-center'>
@@ -61,7 +62,9 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const[showModal, setShowModal] = useState(false);
-  const[channelDataForModal, setChannelDataForModal] = useState<any>({});
+  const [channelDataForModal, setChannelDataForModal] = useState<any | null>(null);
+  const[showInviteModel, setshowInviteModel] = useState(false);
+  
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -83,10 +86,17 @@ useEffect(() => {
   };
 }, []);
 
+
+
 const handelChannelModel =(channel:any)=> {
   setShowModal(true);
   setChannelDataForModal(channel)
 
+}
+
+const handelChannelModelForInvite =(channel:any)=> {
+  setshowInviteModel(true);
+  setChannelDataForModal(channel);
 }
 
  const setChannelData = (channel:any)=> {
@@ -148,10 +158,10 @@ const handelChannelModel =(channel:any)=> {
       <div onClick={()=> setChannelData(channel)} className="flex flex-1 items-center space-x-2 text-base font-medium">
        <span className='text-lg'>{channel.name}</span> 
       </div>
-
+  
     
       <div className="flex items-center space-x-4">
-        <FaUserPlus className="hover:text-white z-40 cursor-pointer" />
+        <FaUserPlus onClick={()=>handelChannelModelForInvite(channel)} className="hover:text-white z-40 cursor-pointer" />
         <FaCog onClick={()=>handelChannelModel(channel)} className="hover:text-white z-40 cursor-pointer" />
         
       </div>
@@ -159,7 +169,16 @@ const handelChannelModel =(channel:any)=> {
             </div>
           </div>
         ))}
-        <ChannelSettingsModal channel={channelDataForModal} isOpen={showModal} onClose={() => setShowModal(false)} />
+        {channelDataForModal && (
+  <ChannelSettingsModal
+    channel={channelDataForModal}
+    isOpen={showModal}
+    onClose={() => setShowModal(false)}
+  />
+)}
+
+{showInviteModel && <InvitePeopleModel isOpen = {showInviteModel} onClose={() => setshowInviteModel(false)} channel={channelDataForModal}/>}
+
 
     </div>
   );

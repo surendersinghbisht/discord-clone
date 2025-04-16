@@ -60,6 +60,7 @@ signUpMutation(formData);
           <label className="text-xs uppercase text-gray-300 mb-1 block">
             Name
           </label>
+          
           <input
             type="text"
             name="name"
