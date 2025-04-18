@@ -1,14 +1,16 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../../api/api';
 import toast from 'react-hot-toast';
 
-const InvitePage = () => {
+const InvitePageForGroup = () => {
 
-  const { channelId: inviteId } = useParams();
+    const query = useQueryClient();
+
+  const { groupId: inviteId } = useParams();
   const navigate = useNavigate();
-
+ 
   const { data: authUser, isLoading,  } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
@@ -40,8 +42,9 @@ const InvitePage = () => {
 
     const joinServer = async () => {
       try {
-        await axiosInstance.put(`/group/invite/${inviteId}`, {});
+        await axiosInstance.put(`/group/group-invite/${inviteId}`, {});
         navigate('/'); 
+        query.invalidateQueries({ queryKey: ["groups"] });
       } catch (error) {
         console.error('Error joining server:', error);
         toast.error("Error joining server. Please try again.");
@@ -49,7 +52,7 @@ const InvitePage = () => {
     };
 
     joinServer();
-  }, [isLoading, authUser, inviteId, navigate]);
+  }, [isLoading, authUser, inviteId, navigate, query]);
 
   if (isLoading) {
     return <div className="text-white text-center p-8">Loading...</div>;
@@ -58,4 +61,4 @@ const InvitePage = () => {
   return <div className="text-white text-center p-8">Joining Server...</div>;
 };
 
-export default InvitePage;
+export default InvitePageForGroup;

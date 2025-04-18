@@ -141,7 +141,7 @@ const ChannelChat: React.FC<ChannelChatProps> = ({ channelDetails }) => {
             <p className="text-sm text-gray-400 mb-2">
               This is the start of the {channelDetails.name} channel.
             </p>
-            {/* <button className="text-blue-400 hover:underline text-sm">Edit Channel</button> */}
+            
           </div>
         </div>
       )}

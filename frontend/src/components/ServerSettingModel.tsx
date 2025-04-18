@@ -5,64 +5,78 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../api/api";
 import toast from "react-hot-toast";
 
-interface ChannelSettingsModalProps {
+interface ServerSettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  channel: any;
+  groupId: string;
 }
 
-const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = ({
+const ServerSettingsModal: React.FC<ServerSettingsModalProps> = ({
   isOpen,
   onClose,
-  channel,
+  groupId,
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
-
-  const [channelName, setChannelName] = useState("");
-  const [channelTopic, setChannelTopic] = useState("");
-
+  const [groupName, setGroupName] = useState<string>("");
+  const [groupTopic, setGroupTopic] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (channel) {
-      setChannelName(channel.name ?? "");
-      setChannelTopic(channel.topic ?? "");
-    }
-  }, [channel]);
+    if (!groupId) return;
+
+    setLoading(true);
+    axiosInstance
+      .get(`/group/${groupId}`)
+      .then((res) => {
+        setGroupName(res.data.name);
+        setGroupTopic(res.data.description);
+      })
+      .catch(() => toast.error("Failed to fetch group details"))
+      .finally(() => setLoading(false));
+  }, [groupId]);
 
   const query = useQueryClient();
 
   const { mutate: ediMutation } = useMutation({
     mutationFn: async () => {
-      await axiosInstance.put(`/group/edit-channel/${channel._id}`, {
-        channelName,
-        channelTopic,
+      setLoading(true);
+      await axiosInstance.put(`/group/edit-group/${groupId}`, {
+        groupName,
+        groupTopic,
       });
     },
     onSuccess: () => {
-      query.invalidateQueries({ queryKey: ["channels"] });
-      toast.success("Channel details edited successfully");
+      query.invalidateQueries({ queryKey: ["groups"] });
+      toast.success("Server details edited successfully");
+      setLoading(false);
+      onClose();
     },
-    onError(error: any) {
-      toast.error(error.response?.data?.message || "Failed to update channel");
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || "Failed to update server");
+      setLoading(false);
     },
   });
 
-  const {mutate: deleteMutation} = useMutation({
+  const { mutate: deleteMutation } = useMutation({
     mutationFn: async () => {
-      await axiosInstance.delete(`/group/delete-channel/${channel._id}`);
+      setLoading(true);
+      await axiosInstance.delete(`/group/delete-server/${groupId}`);
     },
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["channels"] });
-      toast.success("Channel deleted successfully");
+      toast.success("Server deleted successfully");
+      setLoading(false);
+      onClose();
     },
-    onError(error: any) {
-    if (error.response) {
-    if (error.response.status === 400) {
-    toast.error(error.response.data.message);
-    }
-    }
-    }
-  })
+    onError: (error: any) => {
+      if (error.response?.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred while deleting the server");
+      }
+      setLoading(false);
+    },
+  });
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -91,18 +105,19 @@ const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = ({
     };
   }, [isOpen, onClose]);
 
+  const handleSave = () => {
+    if (groupName && groupTopic) {
+      ediMutation();
+    } else {
+      toast.error("Please provide both group name and topic.");
+    }
+  };
 
-  const handleSave =()=>{
-    ediMutation();
-    onClose();
-  }
-  
-  const handleDelete =()=> {
+  const handleDelete = () => {
     deleteMutation();
-    onClose();
-  }
+  };
 
-  if (!isOpen || !channel) return null;
+  if (!isOpen || !groupId) return null;
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
@@ -124,29 +139,34 @@ const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = ({
           <label className="block text-sm font-medium mb-1">Channel Name</label>
           <input
             name="channelName"
-            value={channelName}
-            onChange={(e) => setChannelName(e.target.value)}
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
             className="w-full px-3 py-2 rounded bg-[#1E1F22] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white"
             placeholder="channel-name"
+            disabled={loading}
           />
         </div>
 
         <div className="mb-6">
           <label className="block text-sm font-medium mb-1">Channel Topic</label>
           <textarea
-            value={channelTopic}
-            onChange={(e) => setChannelTopic(e.target.value)}
+            value={groupTopic}
+            onChange={(e) => setGroupTopic(e.target.value)}
             className="w-full px-3 py-2 h-24 rounded bg-[#1E1F22] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white resize-none"
             maxLength={1024}
             placeholder="Let everyone know how to use this channel!"
+            disabled={loading}
           />
           <div className="text-right text-xs text-gray-400 mt-1">
-            {channelTopic.length}/1024
+            {groupTopic.length}/1024
           </div>
         </div>
 
         <div className="flex justify-between">
-          <div onClick={handleDelete} className="flex items-center gap-4">
+          <div
+            onClick={handleDelete}
+            className="flex items-center gap-4 cursor-pointer"
+          >
             <span>Delete Channel</span>
             <span>
               <RiDeleteBin5Line className="mt-0.5 text-red-500" size={19} />
@@ -156,8 +176,9 @@ const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = ({
           <button
             onClick={handleSave}
             className="bg-green-500 hover:bg-green-400 mt-1 text-white py-1 px-4 rounded"
+            disabled={loading}
           >
-            Save Changes
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
@@ -165,4 +186,4 @@ const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = ({
   );
 };
 
-export default ChannelSettingsModal;
+export default ServerSettingsModal;

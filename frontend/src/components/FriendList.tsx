@@ -1,6 +1,12 @@
-export default function CreateChannelModal({ isOpen, closeModal, channelDetails }: { isOpen: boolean, closeModal: () => void,channelDetails:any }) {
-//   const [channelName, setChannelName] = useState("");
-console.log('asdasd',channelDetails)
+import { IUser } from "@/models/User";
+import { useQuery } from "@tanstack/react-query";
+
+export default function CreateChannelModal({ isOpen, closeModal, channelDetails }: { isOpen: boolean, closeModal: () => void, channelDetails: any }) {
+  const { data: authUser } = useQuery<IUser>({
+    queryKey: ['authUser']
+  });
+
+ 
   if (!isOpen) return null;
 
   return (
@@ -13,27 +19,26 @@ console.log('asdasd',channelDetails)
           ✕
         </button>
         <h1 className="text-xl">Members</h1>
-        <div className="flex justify-between items-center">
-        
-         {channelDetails.members.map((member: any) => (
-            <div>
-              <div className="flex items-center space-x-2">
-        <span className="text-sm text-gray-400">Online - 1</span>
-      </div>
-      <div className=" mt-4 flex items-center space-x-2">
-        <span>
-            <img className="w-8 h-8 rounded-full object-cover"
-             src={member.image ? member.image : '/user.jpg'}/>
-        </span>
-      <span className="text-white"> 
-                {member.name} 
-            </span>
-            <span className="text-yellow-400">👑</span>
-      </div>
+        <div className="space-y-4">
+          {channelDetails.members.map((member: any, index: number) => (
+            <div key={index}>
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                {/* <span>Online - 1</span> */}
+              </div>
+              <div className="mt-2 flex items-center space-x-2">
+                <img
+                  className="w-8 h-8 rounded-full object-cover"
+                  src={member.image || '/user.jpg'}
+                  alt={member.name}
+                />
+                <span className="text-white">{member.name}</span>
+                {authUser?._id === member._id && (
+                  <span className="text-yellow-400">👑</span>
+                )}
+              </div>
             </div>
-        ))}
+          ))}
         </div>
-      
       </div>
     </div>
   );

@@ -140,3 +140,27 @@
     }
 
 }
+
+
+/* Hide scrollbar */
+/* Hide scrollbar */
+@layer utilities {
+  .hide-scrollbar {
+    overflow-y: auto; /* Allow scrolling when content exceeds */
+  }
+
+  /* WebKit-based browsers (Chrome, Safari, Edge) */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;  /* Hides the scrollbar */
+  }
+
+  /* Firefox */
+  .hide-scrollbar {
+    scrollbar-width: none;  /* Hides the scrollbar */
+  }
+
+  /* Internet Explorer */
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* Hides the scrollbar */
+  }
+}

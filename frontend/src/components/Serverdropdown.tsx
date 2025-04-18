@@ -4,7 +4,14 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
-export default function ServerDropdownMenu({ openModal }: { openModal: () => void, closeMenu: () => void }) {
+interface ServerDropdownMenuProps {
+   openModal: () => void, 
+   closeMenu: () => void ,
+   openModelForGroup: () => void ,
+   setServerSettings:React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function ServerDropdownMenu({ openModal, openModelForGroup, setServerSettings }:ServerDropdownMenuProps) {
   
 
 
@@ -17,12 +24,12 @@ export default function ServerDropdownMenu({ openModal }: { openModal: () => voi
     >
     
 
-      <div className="flex items-center gap-2 hover:bg-[#404249] p-2 rounded cursor-pointer">
+      <div onClick={openModelForGroup} className="flex items-center gap-2 hover:bg-[#404249] p-2 rounded cursor-pointer">
         <FaUserPlus className="text-gray-400" />
         <span>Invite People</span>
       </div>
 
-      <div className="flex items-center gap-2 hover:bg-[#404249] p-2 rounded cursor-pointer">
+      <div onClick={() => setServerSettings(true)} className="flex items-center gap-2 hover:bg-[#404249] p-2 rounded cursor-pointer">
         <FaCog className="text-gray-400" />
         <span>Server Settings</span>
       </div>

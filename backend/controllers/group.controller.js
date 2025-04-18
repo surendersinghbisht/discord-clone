@@ -1,7 +1,7 @@
 import Channel from "../models/channel.model.js";
 import Group from "../models/group.model.js";
 import User from "../models/user.model.js";
-
+import mongoose from "mongoose";
 
 export const createGroup = async(req, res)=> {
     try {
@@ -46,23 +46,39 @@ res.status(201).json({message: "group created sucessfully"});
     }
 }
 
-
-export const getGroups =async(req, res)=> {
+export const getGroup =async (req, res)=> {
     try {
-        const userId = req.user._id;
-        const user = await User.findById(userId)
-        .select("inGroups")
-        .populate("inGroups", "name description") 
+        const {groupId} = req.params;
+        const group = await Group.findById(groupId);
 
-
-res.status(200).json(user.inGroups);
-
+        res.status(200).json(group);
     } catch (error) {
         console.log(error, "error in group controller");
-        res.status(500).json({ message: "something went wrong", error });
-
+        res.status(500).json({message: "internal server error"});
     }
 }
+
+
+export const getGroups = async (req, res) => {
+    try {
+      const userId = req.user._id;
+  
+      const user = await User.findById(userId)
+        .select("inGroups")
+        .populate("inGroups", "name description");
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json(user.inGroups);
+  
+    } catch (error) {
+      console.error("Error in group controller:", error);
+      res.status(500).json({ message: "Something went wrong", error: error.message });
+    }
+  };
+  
 
 
 export const getAllChannelsForGroup = async (req, res)=> {
@@ -154,3 +170,123 @@ export const deleteChannel  = async(req, res)=> {
         res.status(500).json(error,"something went wrong"); 
     }
 }
+
+
+export const addUserByInvite = async (req, res) => {
+    try {
+        const { channelId } = req.params;
+        const userId = req.user._id;
+
+        const channel = await Channel.findByIdAndUpdate(
+            channelId,
+            { $addToSet: { members: userId } },
+            { new: true }
+        );
+
+        if (!channel) {
+            return res.status(404).json({ message: "Channel not found" });
+        }
+
+        res.status(200).json(channel);
+    } catch (error) {
+        console.error("Error in addUserByInvite:", error);
+        res.status(500).json({ message: "Something went wrong", error });
+    }
+};
+
+
+export const getGroupIfAddedToChannel =async(req, res)=> {
+    try {
+        const userId = req.user._id;
+        const {channelId} = req.params;
+        const group = await Channel.findById(channelId).populate("belongToGroup","name");
+        
+        if(!group) {
+            return res.status(404).json({ message: "group not found" });
+        }
+        res.status(200).json(group);
+    } catch (error) {
+        console.error("Error in addUserByInvite:", error);
+        res.status(500).json({ message: "Something went wrong", error });
+    }
+}
+
+export const addUserTogroupByInvite = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { groupId } = req.params;
+
+        
+        if (!mongoose.Types.ObjectId.isValid(groupId)) {
+            return res.status(400).json({ message: "Invalid group ID format" });
+        }
+
+       
+      await User.findByIdAndUpdate(userId, {$addToSet: {inGroups: groupId}}, {new: true});
+        
+      const group = await Group.findById(groupId).populate('channels');
+        
+        if (!group) {
+            return res.status(404).json({ message: "Group not found" });
+        }
+
+        for(let channelId of group.channels) {
+            const channel = await Channel.findById(channelId);
+
+            if(!channel.members.includes(userId)){
+                channel.members.push(userId);
+                await channel.save();
+            }
+        }
+        
+        if (group.members.includes(userId)) {
+            return res.status(400).json({ message: "User is already a member of the group" });
+        }
+
+       
+        if (!group.members.includes(userId)) {
+            group.members.push(userId);
+            await group.save(); 
+        }
+    
+        res.status(200).json(group);
+
+    } catch (error) {
+        console.error("Error in addUserToGroupByInvite:", error);
+        res.status(500).json({ message: "Something went wrong", error: error.message });
+    }
+};
+
+
+export const editGroup = async (req, res) => {
+    try {
+       
+        const groupId = req.params.groupId; 
+
+       
+        const { groupName, groupTopic } = req.body;
+
+  
+        if (!mongoose.Types.ObjectId.isValid(groupId)) {
+            return res.status(400).json({ message: "Invalid group ID format" });
+        }
+
+      
+        const group = await Group.findByIdAndUpdate(
+            groupId, 
+            { name: groupName, description: groupTopic },
+            { new: true }  
+        );
+
+       
+        if (!group) {
+            return res.status(404).json({ message: "Group not found" });
+        }
+
+       
+        res.status(200).json(group);
+    } catch (error) {
+        console.error("Error in editGroup:", error);
+        res.status(500).json({ message: "Something went wrong", error: error.message });
+    }
+};

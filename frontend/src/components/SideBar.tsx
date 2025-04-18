@@ -34,8 +34,10 @@ const SideBar:React.FC<ChildProps> = ({getChannels, setSharedData, setSettingsPa
 
 const {data: groups} = useQuery({
   queryKey: ["groups"],
-queryFn: async()=> {try {
+queryFn: async()=> {
+  try {
   const res = await axiosInstance.get("/group/get-groups");
+  console.log("res",res.data)
   return res.data;
 } catch (error) {
   console.log(error)
@@ -77,14 +79,14 @@ const showToast = ()=> {
 }
 
   return (
-    <div className=" w-18 p-3 flex flex-col h-screen bg-customcolor sticky items-center pt-10  text-white shadow-lg">
+    <div className=" w-18 p-3 flex flex-col h-screen overflow-y-auto bg-customcolor sticky items-center pt-10  text-white shadow-lg hide-scrollbar">
 
         <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaDiscord size="28" />} text="Direct Message" /></button>   
       <SidebarLine />
 
       {groups?.map((group:any)=> {
         return (
-          <div className=""> 
+          <div  key={group._id} className=""> 
             <button onClick={()=>setChannelsData(group._id, group.name)}>
             <SidebarIcon icon={  <Avatar className="">
   <AvatarImage className="bg-black" src="" />

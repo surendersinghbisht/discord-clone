@@ -10,6 +10,8 @@ import {  FaUserPlus, FaCog } from "react-icons/fa";
 import { useRef } from 'react';
 import ChannelSettingsModal from './ChannelSettingsModal';
 import InvitePeopleModel from './InvitePeopleModel';
+import ServerSettingsModal from './ServerSettingModel';
+import { Server } from 'lucide-react';
 // const NavbarListItem = ({ icon, text }) => (
 //   <div className='w-full flex justify-between items-center my-1 group'>
 //     <div className='flex justify-between items-center'>
@@ -63,7 +65,9 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const[showModal, setShowModal] = useState(false);
   const [channelDataForModal, setChannelDataForModal] = useState<any | null>(null);
-  const[showInviteModel, setshowInviteModel] = useState(false);
+  const[showInviteModelForChannel, setInviteModelForChannel] = useState(false);
+  const[showInviteModelForGroup, setInviteModelForGroup] = useState(false);
+  const[ServerSettings, setServerSettings] = useState(false);
   
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -94,9 +98,20 @@ const handelChannelModel =(channel:any)=> {
 
 }
 
-const handelChannelModelForInvite =(channel:any)=> {
-  setshowInviteModel(true);
+const handelChannelModelForInvite =(channel:any, type: string)=> {
+
+  if(type === "channel"){
+    setInviteModelForChannel(true);
+    setInviteModelForGroup(false);
   setChannelDataForModal(channel);
+  } 
+
+  if(type === "group"){
+    console.log("group", groupId)
+    setInviteModelForGroup(true);
+    setInviteModelForChannel(false);
+    setChannelDataForModal(groupId);
+}
 }
 
  const setChannelData = (channel:any)=> {
@@ -144,7 +159,11 @@ const handelChannelModelForInvite =(channel:any)=> {
 
       {sharedData.channels && isDropdownOpen && (
         <div  ref={dropdownRef} className="absolute mt-14 sm:mt-0 z-10 w-full sm:w-64">
-          <ServerDropdownMenu openModal={() => setIsModalOpen(true)} closeMenu={() => setIsDropdownOpen(false)} />
+          <ServerDropdownMenu 
+          setServerSettings={(data)=>setServerSettings(data)}
+          openModelForGroup ={() => handelChannelModelForInvite(groupId, "group")}
+           openModal={() => setIsModalOpen(true)} 
+           closeMenu={() => setIsDropdownOpen(false)} />
           <CreateChannelModal groupId={groupId} isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
         </div>
       )}
@@ -161,7 +180,7 @@ const handelChannelModelForInvite =(channel:any)=> {
   
     
       <div className="flex items-center space-x-4">
-        <FaUserPlus onClick={()=>handelChannelModelForInvite(channel)} className="hover:text-white z-40 cursor-pointer" />
+        <FaUserPlus onClick={()=>handelChannelModelForInvite(channel, "channel")} className="hover:text-white z-40 cursor-pointer" />
         <FaCog onClick={()=>handelChannelModel(channel)} className="hover:text-white z-40 cursor-pointer" />
         
       </div>
@@ -177,8 +196,10 @@ const handelChannelModelForInvite =(channel:any)=> {
   />
 )}
 
-{showInviteModel && <InvitePeopleModel isOpen = {showInviteModel} onClose={() => setshowInviteModel(false)} channel={channelDataForModal}/>}
+{ServerSettings &&<ServerSettingsModal groupId={groupId} isOpen={ServerSettings} onClose={() => setServerSettings(false)} />}
 
+{showInviteModelForChannel && <InvitePeopleModel   isOpen = {showInviteModelForChannel} onClose={() => setInviteModelForChannel(false)} channel={channelDataForModal}/>}
+{showInviteModelForGroup && <InvitePeopleModel groupId={groupId}  isOpen = {showInviteModelForGroup} onClose={() => setInviteModelForGroup(false)} />}
 
     </div>
   );

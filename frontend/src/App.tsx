@@ -8,6 +8,8 @@ import toast, { Toaster } from "react-hot-toast"
 // import { IUser } from "./models/User"
 import LoginPage from "./Pages/LoginPage"
 import HeroSection from "./Pages/HeroPage"
+import InvitePage from "./Pages/InvitePage"
+import InvitePageForGroup from "./Pages/InvitePageForGroup"
 function App() {
 
   const { data: authUser, isLoading } = useQuery({
@@ -37,6 +39,8 @@ function App() {
         <Route path="/" element={authUser?<LandingPage />:<HeroSection />}/>
         <Route path="/signup" element={!authUser? <SignUpPage />: <Navigate to="/" />} />
         <Route path="/login" element={!authUser? <LoginPage />: <Navigate to="/" />} />
+        <Route path="/group/invite/:channelId" element={<InvitePage />} />
+        <Route path="/group/group-invite/:groupId" element={<InvitePageForGroup />} />
       </Routes>
       <Toaster />
     </div>
