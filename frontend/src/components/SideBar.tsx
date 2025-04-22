@@ -79,7 +79,7 @@ const showToast = ()=> {
 }
 
   return (
-    <div className=" w-18 p-3 flex flex-col h-screen overflow-y-auto bg-customcolor sticky items-center pt-10  text-white shadow-lg hide-scrollbar">
+    <div className=" w-168 flex-shrink-0  p-3 flex flex-col h-screen overflow-y-auto bg-customcolor sticky items-center pt-10  text-white shadow-lg hide-scrollbar">
 
         <button onClick={setDirectMessage} ><SidebarIcon  icon={<FaDiscord size="28" />} text="Direct Message" /></button>   
       <SidebarLine />

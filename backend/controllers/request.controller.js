@@ -3,20 +3,21 @@ import Request from '../models/request.model.js';
 import Group from '../models/group.model.js';
 import GroupRequest from '../models/grouprequest.model.js';
 import groupRequest from '../models/grouprequest.model.js';
+import FriendRequest from '../models/friendRequest.model.js';
 
 
 export const sendRequest = async (req, res) => {
     try {
-        const {userId} = req.params;
+        const {recieverId} = req.params;
         const senderId = req.user._id;
-
-        const user = await User.findById(userId);
+console.log('asdsadsda',recieverId)
+        const user = await User.findById(recieverId);
 
         if(user.friends.includes(senderId)) {
             return res.status(400).json({message: "User is already a friend"});
         }
 
-        const existingRequest = await Request.findOne({sender: senderId, reciever: userId});
+        const existingRequest = await Request.findOne({sender: senderId, reciever: recieverId});
 
         if(existingRequest) {
             return res.status(400).json({message: "Request already sent"});
@@ -24,7 +25,7 @@ export const sendRequest = async (req, res) => {
 
         const request = new Request({
 sender: senderId,
-reciever: userId,
+reciever: recieverId,
         });
 
         await request.save();
@@ -41,26 +42,36 @@ export const acceptRequest = async (req, res) => {
         const currentLoggedInUserId = req.user._id;
 
         
-        const request = Request.findById(requestId).populate(
-            "sender", "name username friends"
-        ).populate("reciever", "name username friends");
+        const request = await Request.findById(requestId)
+            .populate("sender", "name username friends")
+            .populate("reciever", "name username friends");
 
-        if(request.reciever._id !== currentLoggedInUserId){
+       
+        if (request.reciever._id.toString() !== currentLoggedInUserId.toString()) {
             return res.status(403).json({ message: "Not authorized to accept this request" });
         }
 
-    request.status = "accepted";
-    await request.save();
 
-    User.findByIdAndUpdate(currentLoggedInUserId,{$addToSet: {friends: request.sender._id}}, {new: true});
-    User.findByIdAndUpdate(request.sender._id, {$addToSet: {friends : currentLoggedInUserId}}, {new: true});
+        request.status = "accepted";
+        await request.save();
+
+
+        await User.findByIdAndUpdate(currentLoggedInUserId, {
+            $addToSet: { friends: request.sender._id }
+        }, { new: true });
+
+        await User.findByIdAndUpdate(request.sender._id, {
+            $addToSet: { friends: currentLoggedInUserId }
+        }, { new: true });
+
         
-    res.status(200).json({message: "request accepted succesfully"});
+        res.status(200).json({ message: "Request accepted successfully" });
     } catch (error) {
-        console.log(error, "error in request controller");
-        res.status(500).json({message: "internal server error"});
+        console.log(error, "Error in request controller");
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
 
 
 export const deleteRequest = async (req, res)=>{
@@ -158,22 +169,4 @@ res.status(200).json({message: "request accepted succesfully"});
 }
 
 
-export const rejectGroupRequest = async(req, res)=> {
-try{const requestId  = req.params.requestId;
 
-const request = groupRequest.findById(requestId);
-
-if(!request ){
-    return res.status(400).json({message: "request not found"});
-}
-
-request.status = "rejected";
-
-request.save();
-res.json({message: "user deleted successfully"});
-}catch(error) {
-    console.log(error, "error in reject group invite controller");
-    res.status(500).json({message: "internal server error"});
-}
-
-}

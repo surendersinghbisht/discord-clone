@@ -12,8 +12,9 @@ import groupRoute from "./Routes/group.route.js";
 import friendsRoute from "./Routes/friends.route.js";
 import messageRoute from "./Routes/message.Route.js"; 
 
-import {messageController} from "./controllers/message.controller.js"
+import {messageController} from "./controllers/message.controller.js";
 import { groupMessage } from "./controllers/groupMessage.controller.js";
+import FriendRequestRoute from "./Routes/FriendRequest.route.js";
 
 dotenv.config();
 
@@ -58,6 +59,7 @@ app.use("/api/user", userRoute);
 app.use("/api/group", groupRoute);
 app.use("/api/friends", friendsRoute);
 app.use("/api/message", messageRoute); 
+app.use("/api/request", FriendRequestRoute);
 
 
 

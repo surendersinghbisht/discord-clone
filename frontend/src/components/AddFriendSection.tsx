@@ -3,7 +3,7 @@ const AddFriend = () => {
   return (
     <div className="bg-[#1e1f22] text-white p-6 md:p-8 rounded-lg w-full max-w-4xl mx-auto mt-10 relative">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between">
-        {/* Left Section: Text + Input */}
+       
         <div className="flex-1">
           <h2 className="text-xl md:text-2xl font-bold mb-1">Add Friend</h2>
           <p className="text-sm md:text-base text-gray-400 mb-4">

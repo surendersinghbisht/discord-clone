@@ -1,5 +1,5 @@
 import { IUser } from "@/models/User";
-import { FC, memo, useState } from "react";
+import { FC, memo, use, useState } from "react";
 import { Button } from "./ui/button";
 import { FaUserFriends } from "react-icons/fa";
 import { Input } from "./ui/input";
@@ -7,6 +7,10 @@ import { axiosInstance } from "../../api/api";
 import { AxiosResponse } from "axios";
 import Userbatch from "./Userbatch";
 import { IoIosPersonAdd } from "react-icons/io";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 
 type FriendsSectionProps = {
   friends: IUser[];
@@ -16,27 +20,78 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
   const [showAllFriends, setShowAllFriends] = useState(false);
   const [addFriends, setAddFriends] = useState(false);
   const [username, setUsername] = useState("");
-  const [searchedUser, setSeachedUser] = useState<IUser | null>(null);
+  const [searchedUser, setSearchedUser] = useState<IUser | null>(null);
   const [findFriend, setFindFriend] = useState(false);
+  const[requestSection, setRequestSection] = useState(false);
 
-  const showMyFriends = (): void => {
+  const queryClient = useQueryClient();
+
+  const { data: requests } = useQuery({
+    queryKey: ["requests"],
+    queryFn: async () => {
+      try {
+        const res = await axiosInstance.get("/request/get-requests");
+        return res.data || [];
+      } catch (error) {
+        console.log("Error in getting friend requests:", error);
+        return []; 
+      }
+    }
+  });
+  
+
+  const { mutate: sendRequest } = useMutation({
+    mutationFn: async (receiverId: string) => {
+      await axiosInstance.post(`/request/send-request/${receiverId}`);
+    },
+    onSuccess: () => {
+      toast.success("Request sent successfully");
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    }
+  });
+
+  const showMyFriends = () => {
     setShowAllFriends(true);
     setAddFriends(false);
+    setRequestSection(false);
   };
 
-  const addingFriend = (): void => {
+  const addingFriend = () => {
     setAddFriends(true);
     setShowAllFriends(false);
+    setRequestSection(false);
   };
 
-  const findUser = async (): Promise<void> => {
+  const handleRequestSection =()=> {
+    setShowAllFriends(false);
+    setAddFriends(false);
+    setRequestSection(true);
+  }
+
+  const findUser = async () => {
     try {
       const res: AxiosResponse<IUser> = await axiosInstance.get(`/friends/find/${username}`);
-      setSeachedUser(res.data);
+      setSearchedUser(res.data);
       setFindFriend(true);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
+    } catch {
+      setSearchedUser(null);
+      setFindFriend(true);
     }
+  };
+
+  const sendFriendRequest = (receiverId: string) => {
+    sendRequest(receiverId);
+  };
+
+ const acceptUserRequest = (requestId: string) => {
+    axiosInstance.put(`/request/accept-request/${requestId}`).then(() => {
+     
+      toast.success("Request accepted successfully");
+     queryClient.invalidateQueries({ queryKey: ["requests"] });
+     queryClient.invalidateQueries({ queryKey: ["friends"] });
+    });
   };
 
   return (
@@ -46,24 +101,41 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
         <p className="text-white font-bold font-discord">Friends</p>
       </div>
 
-      <div className="flex flex-wrap gap-4 mt-6 text-base md:text-lg  font-discord">
+      <div className="flex flex-wrap gap-4 mt-6 text-base md:text-lg font-discord">
         <Button onClick={showMyFriends} className="font-bold">All</Button>
-        <Button onClick={addingFriend} className= "font-bold bg-discordColor">
+        <Button onClick={addingFriend} className="font-bold bg-discordColor">
           Add Friends
         </Button>
+        <Button onClick={()=> handleRequestSection()} className="font-bold">Requests</Button>
       </div>
+
+
+{requestSection && (
+  <div className="mt-6">
+    {requests?.length > 0 ? (
+      <div className="flex flex-col">
+        {requests.map((request, index:number) => (
+          <div key={index} className="mt-4">
+            <Userbatch icon={<FaCheck onClick={()=>acceptUserRequest(request._id)} className="text-green-500" />} icon2={<RxCross2 className="text-red-500" />} name={request.sender.name} image={request.image} />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="mt-6 text-white font-bold text-base sm:text-lg font-discord">
+        No Friend Requests Found
+      </div>
+    )}
+    </div>
+  )}
 
 
       {showAllFriends && (
         <div className="mt-6">
           {friends?.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="flex flex-col">
               {friends.map((friend, index) => (
-                <div
-                  key={index}
-                  className="font-bold font-discord text-gray-200 text-base md:text-xl bg-[#2B2D31] p-4 rounded-xl shadow-sm"
-                >
-                  <h1>{friend.name}</h1>
+                <div key={index} className="mt-4">
+                  <Userbatch name={friend.name} image={friend.image} />
                 </div>
               ))}
             </div>
@@ -92,7 +164,7 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
               <div className="text-white font-discord font-bold text-base sm:text-xl">
                 <Userbatch
                   name={searchedUser.name}
-                  icon={<IoIosPersonAdd />}
+                  icon={<IoIosPersonAdd onClick={() => sendFriendRequest(searchedUser._id)} />}
                 />
               </div>
             ) : (
@@ -106,6 +178,5 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
     </div>
   );
 };
-
 
 export default memo(FriendsSection);

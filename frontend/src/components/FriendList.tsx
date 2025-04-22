@@ -23,7 +23,7 @@ export default function CreateChannelModal({ isOpen, closeModal, channelDetails 
           {channelDetails.members.map((member: any, index: number) => (
             <div key={index}>
               <div className="flex items-center space-x-2 text-sm text-gray-400">
-                {/* <span>Online - 1</span> */}
+                
               </div>
               <div className="mt-2 flex items-center space-x-2">
                 <img
