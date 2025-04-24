@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import authRoute from "./routes/auth.route.js";
+import authRoute from "./Routes/auth.route.js";
 import requestRoute from "./Routes/request.route.js";
 import userRoute from "./Routes/user.route.js";
 import groupRoute from "./Routes/group.route.js";
@@ -27,7 +27,7 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -50,6 +50,14 @@ const connectDB = async () => {
 
 messageController(io); 
 groupMessage(io);
+
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 
 
