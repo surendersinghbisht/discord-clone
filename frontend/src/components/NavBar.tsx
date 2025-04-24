@@ -11,7 +11,6 @@ import { useRef } from 'react';
 import ChannelSettingsModal from './ChannelSettingsModal';
 import InvitePeopleModel from './InvitePeopleModel';
 import ServerSettingsModal from './ServerSettingModel';
-import { Server } from 'lucide-react';
 // const NavbarListItem = ({ icon, text }) => (
 //   <div className='w-full flex justify-between items-center my-1 group'>
 //     <div className='flex justify-between items-center'>

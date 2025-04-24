@@ -1,5 +1,5 @@
 import { IUser } from "@/models/User";
-import { FC, memo, use, useState } from "react";
+import { FC, memo, useState } from "react";
 import { Button } from "./ui/button";
 import { FaUserFriends } from "react-icons/fa";
 import { Input } from "./ui/input";
@@ -114,7 +114,7 @@ const FriendsSection: FC<FriendsSectionProps> = ({ friends }) => {
   <div className="mt-6">
     {requests?.length > 0 ? (
       <div className="flex flex-col">
-        {requests.map((request, index:number) => (
+        {requests.map((request: any, index:number) => (
           <div key={index} className="mt-4">
             <Userbatch icon={<FaCheck onClick={()=>acceptUserRequest(request._id)} className="text-green-500" />} icon2={<RxCross2 className="text-red-500" />} name={request.sender.name} image={request.image} />
           </div>
