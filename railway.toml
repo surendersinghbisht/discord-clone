@@ -1,7 +1,7 @@
-# railway.toml — place this at the ROOT of your project
+# railway.toml — placed at the ROOT of your project
 
 [build]
-root = "backend"
+root = "backend"  # This points to your backend folder
 
 [deploy]
-runtime = "node"
+runtime = "V2"  # Use the correct runtime identifier
