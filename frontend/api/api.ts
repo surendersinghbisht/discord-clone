@@ -2,7 +2,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:5000/api", withCredentials: true
+    baseURL: "https://discord-clone-production-d6c7.up.railway.app/api", withCredentials: true
 })
 
 
