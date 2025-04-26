@@ -22,10 +22,18 @@ const InvitePeopleModel: React.FC<ChannelSettingsModalProps> = ({
   const origin = useOrigin();
 
   useEffect(() => {
+    // Ensure origin is set properly
+    if (!origin) {
+      console.error("Origin is not set properly.");
+      return;
+    }
+
     if (channel && channel._id) {
       setInviteLink(`${origin}/group/invite/${channel._id}`);
     } else if (groupId) {
       setInviteLink(`${origin}/group/group-invite/${groupId}`);
+    } else {
+      console.error("No valid channel or group ID found.");
     }
   }, [channel, groupId, origin]);
 
@@ -56,7 +64,11 @@ const InvitePeopleModel: React.FC<ChannelSettingsModalProps> = ({
       navigator.clipboard.writeText(inviteLink).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+      }).catch((err) => {
+        console.error("Failed to copy to clipboard", err);
       });
+    } else {
+      console.error("Invite link is empty");
     }
   };
 
@@ -80,8 +92,7 @@ const InvitePeopleModel: React.FC<ChannelSettingsModalProps> = ({
 
         <div className="mb-6 relative">
           <label className="block text-sm font-medium mb-1 text-white">
-            {groupId && "Group Invite Link" }
-            {channel && "Channel Invite Link"}
+            {groupId ? "Group Invite Link" : "Channel Invite Link"}
           </label>
           <input
             name="inviteLink"
@@ -89,6 +100,7 @@ const InvitePeopleModel: React.FC<ChannelSettingsModalProps> = ({
             onChange={(e) => setInviteLink(e.target.value)}
             className="w-full px-3 py-2 pr-10 rounded-lg bg-[#1E1F22] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white"
             placeholder="https://discord.gg/..."
+            readOnly
           />
           <Copy
             onClick={handleCopy}
